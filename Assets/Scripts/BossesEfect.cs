@@ -37,7 +37,7 @@ public class BossesEfect : MonoBehaviour
               if(Board.GetComponent<BoardScript>().AssassinsMAttack.Count != 0 || Board.GetComponent<BoardScript>().AssassinsRAttack.Count != 0 || Board.GetComponent<BoardScript>().AssassinsSAttack.Count != 0)
               {
                 IsPlayed = true;
-                Strongest = UnityCardScript.Biggest(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
+                Strongest = UnityCardScript.BiggestCard(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
                 GameManager.GetComponent<GameManajer>().AssassinPoints += Strongest.GetComponent<UnityCardScript>().PointAttackCard;
                 GameManager.GetComponent<GameManajer>().AssassinPlay = false;
                 GameManager.GetComponent<GameManajer>().TemplarsPlay = true;

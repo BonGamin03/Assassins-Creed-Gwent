@@ -174,12 +174,12 @@ public class UnityCardScript : MonoBehaviour
      
       
     }// El bloque de codigo siguiente es el encargado de invocar la cartas en el campo despues de realizado el cambio de las dos carta 
-   if (gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins && GameManager.GetComponent<GameManajer>().AssassinPlay && GameManager.GetComponent<GameManajer>().AlreadyChangedAssassin)
+   if (gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins && GameManager.GetComponent<GameManajer>().AssassinPlay && GameManager.GetComponent<GameManajer>().AlreadyChangedAssassin && !IsPlayed)
    {
     GameManager.GetComponent<GameManajer>().maskPositionHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = false;
-    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M && !IsPlayed)
+    IsPlayed = true;
+    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M)
     {
-      IsPlayed = true;
       for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinMattackPos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskAssassinMattack[i])
@@ -194,9 +194,8 @@ public class UnityCardScript : MonoBehaviour
       }
     }
 
-    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R && !IsPlayed)
+    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R)
     {
-      IsPlayed = true;
       for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinRattackPos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskAssassinRattack[i])
@@ -210,9 +209,8 @@ public class UnityCardScript : MonoBehaviour
       }
     } 
 
-    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S && !IsPlayed)
+    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S)
     {
-      IsPlayed = true;
       for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinSattackPos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskAssassinSattack[i])
@@ -230,12 +228,12 @@ public class UnityCardScript : MonoBehaviour
       GameManager.GetComponent<GameManajer>().TemplarsPlay = true;
   }
 
-  if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Templar && GameManager.GetComponent<GameManajer>().TemplarsPlay && GameManager.GetComponent<GameManajer>().AlreadyChangedTemplar)
+  if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Templar && GameManager.GetComponent<GameManajer>().TemplarsPlay && GameManager.GetComponent<GameManajer>().AlreadyChangedTemplar && !IsPlayed)
   {
       GameManager.GetComponent<GameManajer>().maskPositionHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = false;
-     if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M && !IsPlayed)
-    {
       IsPlayed = true;
+     if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M)
+    {
       for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarMattackpos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskTemplarMattack[i])
@@ -249,9 +247,8 @@ public class UnityCardScript : MonoBehaviour
       }
     }
 
-    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R && !IsPlayed)
+    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R)
     {
-      IsPlayed = true;
       for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarRattackpos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskTemplarRattack[i])
@@ -265,9 +262,8 @@ public class UnityCardScript : MonoBehaviour
       }
     }
 
-    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S && !IsPlayed)
+    if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S)
     {
-      IsPlayed = true;
       for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarSattackpos.Length; i++)
       {
         if(!Board.GetComponent<BoardScript>().maskTemplarSattack[i])
@@ -295,7 +291,7 @@ public class UnityCardScript : MonoBehaviour
       break;
 
       case UnityCard.EnumEfects.Arno_GermainEfect:
-        PortalArno_GermainEffect(gameObject.GetComponent<UnityCardScript>().FactionCard);
+        PutAnAument();
         gameObject.GetComponent<UnityCardScript>().EfectActivated = true;
         break;
 
@@ -356,7 +352,7 @@ public class UnityCardScript : MonoBehaviour
       }
       private void Alexios_ShayCormacEffect(List<GameObject>Mattack,List<GameObject> Rattack,List<GameObject> Sattack)
       {
-        GameObject StrongestCard = Biggest(Mattack,Rattack,Sattack);
+        GameObject StrongestCard = BiggestCard(Mattack,Rattack,Sattack);
 
         for (int i = 0; i < Mattack.Count; i++)
         {
@@ -428,7 +424,7 @@ public class UnityCardScript : MonoBehaviour
           }
         }
       }
-      public static GameObject Biggest(List<GameObject>Mattack,List<GameObject>Rattack,List<GameObject>Sattack)
+      public static GameObject BiggestCard(List<GameObject>Mattack,List<GameObject>Rattack,List<GameObject>Sattack)
       {
         GameObject StrongestCard = new(); 
         int maxPoints = int.MinValue;
@@ -457,8 +453,39 @@ public class UnityCardScript : MonoBehaviour
             maxPoints     = Sattack[i].GetComponent<UnityCardScript>().PointAttackCard;
           }
         }
-
         return StrongestCard;
+      }
+      //Elimina la carta con menor poder del campo rival
+       public static GameObject WeakestCard(List<GameObject>Mattack,List<GameObject>Rattack,List<GameObject>Sattack)
+      {
+        GameObject WeakestCard = new(); 
+        int minPoints = int.MaxValue;
+
+        for (int i = 0; i < Mattack.Count; i++)
+        {
+          if(!Mattack[i].CompareTag("Lure Card") && Mattack[i].GetComponent<UnityCardScript>().PointAttackCard < minPoints) //Agrege lo del senuelo porque intenta acceder a <UnityCardScript> 
+          {
+            WeakestCard = Mattack[i];
+            minPoints     = Mattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+          }
+        }
+        for (int i = 0; i < Rattack.Count; i++)
+        {
+          if(!Rattack[i].CompareTag("Lure Card") &&Rattack[i].GetComponent<UnityCardScript>().PointAttackCard < minPoints)
+          {
+            WeakestCard = Rattack[i];
+            minPoints     = Rattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+          }
+        }
+        for (int i = 0; i < Sattack.Count; i++)
+        {
+          if(!Sattack[i].CompareTag("Lure Card") && Sattack[i].GetComponent<UnityCardScript>().PointAttackCard < minPoints)
+          {
+            WeakestCard = Sattack[i];
+            minPoints     = Sattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+          }
+        }
+        return WeakestCard;
       }
       //Efecto de robar una carta 
       private void Edward_LaureanoEffect(UnityCard.EnumFactionCard enumFactionCard)
@@ -501,94 +528,62 @@ public class UnityCardScript : MonoBehaviour
 
       public void Arno_GermainEffect(List<GameObject> Mattack, List<GameObject> Rattack, List<GameObject> Sattack)
       {
-        int n = Math.Min(Mattack.Count,Math.Min(Rattack.Count,Sattack.Count));
 
-        if(n == Mattack.Count && n>0)
-        {
-          DestroyGameObjects(Mattack);
-          Mattack.Clear();
-          return;
-        }else{
-
-          int m = Math.Min(Rattack.Count,Sattack.Count);
-          if(m == Rattack.Count && m>0)
-          {
-            DestroyGameObjects(Rattack);
-            Rattack.Clear();
-            return;
-          }else{
-            DestroyGameObjects(Sattack);
-            Sattack.Clear();
-          }
-
-          if(m == Sattack.Count && m > 0)
-          {
-            DestroyGameObjects(Sattack);
-            Sattack.Clear();
-            return;
-          }else{
-            DestroyGameObjects(Rattack);
-            Rattack.Clear();
-          }
-      }
-
-        if(n == Rattack.Count && n > 0)
-        {
-          DestroyGameObjects(Rattack);
-          Rattack.Clear();
-          return;
-        }else{
-          int m = Math.Min(Mattack.Count,Sattack.Count);
-          if(m == Mattack.Count && m > 0)
-          {
-            DestroyGameObjects(Mattack);
-            Mattack.Clear();
-            return;
-          }else{
-            DestroyGameObjects(Sattack);
-            Sattack.Clear();
-          }
-
-          if(m == Sattack.Count && m > 0)
-          {
-            DestroyGameObjects(Sattack);
-            Sattack.Clear();
-            return;
-          }else{
-            DestroyGameObjects(Mattack);
-            Mattack.Clear();
-          }
-        }
-
-        if(n == Sattack.Count && n > 0)
+        if(Mattack.Count ==0 && Rattack.Count == 0 && Sattack.Count != 0)
         {
           DestroyGameObjects(Sattack);
-          Sattack.Clear();
-          return;
-        }else{
-
-          int m = Math.Min(Mattack.Count,Rattack.Count);
-          if(m == Mattack.Count && m > 0)
+        }
+        else if(Mattack.Count ==0 && Rattack.Count != 0 && Sattack.Count == 0)
+        {
+          DestroyGameObjects(Rattack);
+        }
+        else if(Mattack.Count !=0 && Rattack.Count == 0 && Sattack.Count == 0)
+        {
+          DestroyGameObjects(Mattack);
+        }
+        else if(Mattack.Count ==0 && Rattack.Count != 0 && Sattack.Count != 0)
+        {
+          if(Rattack.Count > Sattack.Count)
           {
-            DestroyGameObjects(Mattack);
-            Mattack.Clear();
-            return;
+            DestroyGameObjects(Sattack);
           }else{
             DestroyGameObjects(Rattack);
-            Rattack.Clear();
-          }
-
-          if(m == Rattack.Count && m > 0)
-          {
-            DestroyGameObjects(Rattack);
-            Rattack.Clear();
-            return;
-          }else{
-            DestroyGameObjects(Mattack);
-            Mattack.Clear();
           }
         }
-
+        else if(Mattack.Count !=0 && Rattack.Count == 0 && Sattack.Count != 0)
+        {
+          if(Mattack.Count > Sattack.Count)
+          {
+            DestroyGameObjects(Sattack);
+          }else{
+            DestroyGameObjects(Mattack);
+          }
+        }
+        else if(Mattack.Count !=0 && Rattack.Count != 0 && Sattack.Count == 0)
+        {
+          if(Mattack.Count > Rattack.Count)
+          {
+            DestroyGameObjects(Rattack);
+          }else{
+            DestroyGameObjects(Mattack);
+          }
+        }
+        else
+        {
+          int n = Math.Min(Mattack.Count,Math.Min(Rattack.Count,Sattack.Count));
+          if(n == Mattack.Count){
+          DestroyGameObjects(Mattack);
+          return;
+          }
+          if(n == Rattack.Count){
+          DestroyGameObjects(Rattack);
+          return;
+          }
+          if(n == Mattack.Count){
+          DestroyGameObjects(Mattack);
+          return;
+          }
+        }
       }
       //Efecto para agregar un clima
       public void AddWeather(UnityCard.EnumFactionCard factionCard)
@@ -626,7 +621,7 @@ public class UnityCardScript : MonoBehaviour
                     }
                   }
 
-                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
+                 else if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
                  {
                     GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].transform.position = Board.GetComponent<BoardScript>().AssassinsWeatherR.transform.position;
                     Board.GetComponent<BoardScript>().MaskAssassinsWeatherR = true;
@@ -651,7 +646,7 @@ public class UnityCardScript : MonoBehaviour
                     }
                   }
 
-                    if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
+                   else if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
                   {
                       GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].transform.position = Board.GetComponent<BoardScript>().AssassinsWeatherS.transform.position;
                       Board.GetComponent<BoardScript>().MaskAssassinsWeatherS = true;
@@ -679,6 +674,8 @@ public class UnityCardScript : MonoBehaviour
             }
           }
 
+          if(factionCard == UnityCard.EnumFactionCard.Templar)
+          {
           for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
           {
              if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Weather Card "))
@@ -710,7 +707,7 @@ public class UnityCardScript : MonoBehaviour
                     }
                   }
 
-                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
+                 else if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
                  {
                     GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].transform.position = Board.GetComponent<BoardScript>().TemplarsWeatherR.transform.position;
                     Board.GetComponent<BoardScript>().MaskTemplarsWeatherR = true;
@@ -735,7 +732,7 @@ public class UnityCardScript : MonoBehaviour
                     }
                   }
 
-                  if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
+                  else if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
                   {
                       GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].transform.position = Board.GetComponent<BoardScript>().TemplarsWeatherS.transform.position;
                       Board.GetComponent<BoardScript>().MaskTemplarsWeatherS = true;
@@ -760,100 +757,72 @@ public class UnityCardScript : MonoBehaviour
                       }
                   }
               break;
+              }
             }
           }
         }
       }
-      //Efecto en desarrollo, sera presentado en la discusion del proyecto
-      public void EfectNumber6(GameObject gameObject)
+      //Efecto del promedio
+      public void EffectPromedy()
       {
-        
-        if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins)
-        {
-          int counter =1;
-          if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M)
-          {
-            for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsMAttack.Count; i++)
-            {
-              if(!Board.GetComponent<BoardScript>().AssassinsMAttack[i].CompareTag("Lure Card") && Board.GetComponent<BoardScript>().AssassinsMAttack[i].GetComponent<UnityCardScript>().NameCard == gameObject.GetComponent<UnityCardScript>().NameCard)
-              {
-                counter++;
-              }
-            }
-          }
-
-          if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R)
-          {
-            for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsRAttack.Count; i++)
-            {
-              if(!Board.GetComponent<BoardScript>().AssassinsRAttack[i].CompareTag("Lure Card") && Board.GetComponent<BoardScript>().AssassinsRAttack[i].GetComponent<UnityCardScript>().NameCard == gameObject.GetComponent<UnityCardScript>().NameCard)
-              {
-                counter++;
-              }
-            }
-          }
-
-          if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S)
-          {
-            for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsSAttack.Count; i++)
-            {
-              if(!Board.GetComponent<BoardScript>().AssassinsSAttack[i].CompareTag("Lure Card") && Board.GetComponent<BoardScript>().AssassinsSAttack[i].GetComponent<UnityCardScript>().NameCard == gameObject.GetComponent<UnityCardScript>().NameCard)
-              {
-                counter++;
-              }
-            }
-          }
-          gameObject.GetComponent<UnityCardScript>().PointAttackCard = counter;
-        }
-
-
-      }
-
-      public void EffectPromedy(UnityCard.EnumFactionCard factionCard)
-      {
+          gameObject.GetComponent<UnityCardScript>().AlreadySum = true;
           int promedy = 0;
-          if(factionCard == UnityCard.EnumFactionCard.Assassins)
-          {
-            promedy = Promedy(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
-            GameManager.GetComponent<GameManajer>().AssassinPoints = promedy * CounterOfUnitys(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
-          }
-
-          if(factionCard == UnityCard.EnumFactionCard.Templar)
-          {
-            promedy = Promedy(Board.GetComponent<BoardScript>().TemplarsMAttack,Board.GetComponent<BoardScript>().TemplarsRAttack,Board.GetComponent<BoardScript>().TemplarSAttack);
-            GameManager.GetComponent<GameManajer>().TemplarPoints = promedy * CounterOfUnitys(Board.GetComponent<BoardScript>().TemplarsMAttack,Board.GetComponent<BoardScript>().TemplarsRAttack,Board.GetComponent<BoardScript>().TemplarSAttack);
-          }
-
-
+          promedy = Promedy(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack,Board.GetComponent<BoardScript>().TemplarsMAttack,Board.GetComponent<BoardScript>().TemplarsRAttack,Board.GetComponent<BoardScript>().TemplarSAttack);
+          GameManager.GetComponent<GameManajer>().AssassinPoints = promedy * CounterOfUnitys(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
+          GameManager.GetComponent<GameManajer>().TemplarPoints = promedy * CounterOfUnitys(Board.GetComponent<BoardScript>().TemplarsMAttack,Board.GetComponent<BoardScript>().TemplarsRAttack,Board.GetComponent<BoardScript>().TemplarSAttack);
       }
-      private int Promedy(List<GameObject>Mattack,List<GameObject>Rattack,List<GameObject>Sattack)
+      private int Promedy(List<GameObject>MattackAssassins,List<GameObject>MattackTemplars,List<GameObject>RattackAssassins,List<GameObject>RattackTemplars,List<GameObject>SattackAssassins,List<GameObject>SattackTemplars)
       {
           int TotalSum = 0;
           int count = 0;
 
-          for (int i = 0; i < Mattack.Count; i++)
+          for (int i = 0; i < MattackAssassins.Count; i++)
           {
-            if(Mattack[i] != null && !Mattack[i].CompareTag("Lure Card"))
+            if(MattackAssassins[i] != null && !MattackAssassins[i].CompareTag("Lure Card"))
             {
-              TotalSum += Mattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+              TotalSum += MattackAssassins[i].GetComponent<UnityCardScript>().PointAttackCard;
               count++;
             }
           }
 
-           for (int i = 0; i < Rattack.Count; i++)
+           for (int i = 0; i < RattackAssassins.Count; i++)
           {
-            if(Rattack[i] != null && !Rattack[i].CompareTag("Lure Card"))
+            if( RattackAssassins[i] != null && !RattackAssassins[i].CompareTag("Lure Card"))
             {
-              TotalSum += Rattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+              TotalSum += RattackAssassins[i].GetComponent<UnityCardScript>().PointAttackCard;
               count++;
             }
           }
 
-           for (int i = 0; i < Sattack.Count; i++)
+           for (int i = 0; i < SattackAssassins.Count; i++)
           {
-            if(Sattack[i] != null && !Sattack[i].CompareTag("Lure Card"))
+            if(SattackAssassins[i] != null && !SattackAssassins[i].CompareTag("Lure Card"))
             {
-              TotalSum += Sattack[i].GetComponent<UnityCardScript>().PointAttackCard;
+              TotalSum +=SattackAssassins[i].GetComponent<UnityCardScript>().PointAttackCard;
+              count++;
+            }
+          }
+          for (int i = 0; i < MattackTemplars.Count; i++)
+          {
+            if(MattackTemplars[i] != null && !MattackTemplars[i].CompareTag("Lure Card"))
+            {
+              TotalSum += MattackTemplars[i].GetComponent<UnityCardScript>().PointAttackCard;
+              count++;
+            }
+          }
+          for (int i = 0; i < RattackTemplars.Count; i++)
+          {
+            if(RattackTemplars[i] != null && !RattackTemplars[i].CompareTag("Lure Card"))
+            {
+              TotalSum += RattackTemplars[i].GetComponent<UnityCardScript>().PointAttackCard;
+              count++;
+            }
+          }
+          for (int i = 0; i < SattackTemplars.Count; i++)
+          {
+            if(SattackTemplars[i] != null && !SattackTemplars[i].CompareTag("Lure Card"))
+            {
+              TotalSum += SattackTemplars[i].GetComponent<UnityCardScript>().PointAttackCard;
               count++;
             }
           }
@@ -861,6 +830,147 @@ public class UnityCardScript : MonoBehaviour
           return TotalSum / count;
       }
 
+      //Poner un aumento
+      public void PutAnAument()
+      {
+        if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins)
+        {
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+          {
+            if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Aument Card"))
+            {
+              if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<AumentCardScript>().RowAument)
+              {
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].transform.position = Board.GetComponent<BoardScript>().AssassinsAumentM.transform.position;
+                   Board.GetComponent<BoardScript>().MaskAssassinsAumentM = true;
+                   Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().AssassinsMAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().AssassinsMAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsMAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().AssassinPoints += 2;
+                         }
+                      }
+                  }
+                }
+
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].transform.position = Board.GetComponent<BoardScript>().AssassinsAumentR.transform.position;
+                   Board.GetComponent<BoardScript>().MaskAssassinsAumentR = true;
+                   Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().AssassinsRAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().AssassinsRAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsRAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().AssassinPoints += 2;
+                         }
+                      }
+                  }
+                }
+
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].transform.position = Board.GetComponent<BoardScript>().AssassinsAumentS.transform.position;
+                   Board.GetComponent<BoardScript>().MaskAssassinsAumentS = true;
+                   Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().AssassinsSAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().AssassinsSAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsSAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().AssassinPoints += 2;
+                         }
+                      }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Templar)
+        {
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+          {
+            if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Aument Card"))
+            {
+              if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<AumentCardScript>().RowAument)
+              {
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.M)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].transform.position = Board.GetComponent<BoardScript>().TemplarsAumentM.transform.position;
+                   Board.GetComponent<BoardScript>().MaskTemplarsAumentM = true;
+                   Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().TemplarsMAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().TemplarsMAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().TemplarsMAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().TemplarPoints += 2;
+                         }
+                      }
+                  }
+                }
+
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.R)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].transform.position = Board.GetComponent<BoardScript>().TemplarsAumentR.transform.position;
+                   Board.GetComponent<BoardScript>().MaskTemplarsAumentR = true;
+                   Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().TemplarsRAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().TemplarsRAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().TemplarsRAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().TemplarPoints += 2;
+                         }
+                      }
+                  }
+                }
+
+                if(gameObject.GetComponent<UnityCardScript>().TypeAttackCard == UnityCard.EnumTypeAttackCard.S)
+                {
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].transform.position = Board.GetComponent<BoardScript>().TemplarsAumentS.transform.position;
+                   Board.GetComponent<BoardScript>().MaskTemplarsAumentS = true;
+                   Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
+                   GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] = null;
+              
+                   for (int j = 0; j < Board.GetComponent<BoardScript>().TemplarSAttack.Count; j++)
+                   {
+                      if(Board.GetComponent<BoardScript>().TemplarSAttack[j] != null)
+                      { 
+                         if(!AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().TemplarSAttack[j]))
+                         {
+                            GameManager.GetComponent<GameManajer>().TemplarPoints += 2;
+                         }
+                      }
+                    }
+                  }
+              }
+            }
+          }
+        }
+      }
        private int CounterOfUnitys (List<GameObject>Mattack,List<GameObject>Rattack,List<GameObject>Sattack)
       {
           int count = 0;
@@ -892,26 +1002,16 @@ public class UnityCardScript : MonoBehaviour
           return count;
       }
 
-
-
-      public int SumRow(List<GameObject> row)
-      {
-        int first = 0;
-        for (int i = 0; i < row.Count; i++)
-        {
-          first += row[i].GetComponent<UnityCardScript>().PointAttackCard;
-        } 
-
-        return first;
-      }
-
-      //Este metodo es para desaparecer los gameObjects de la escena 
-      public void DestroyGameObjects(List<GameObject> row)
+      // public int SumRow(List<GameObject> row)
+      
+      //Metodo para eliminar una fila
+      public static void DestroyGameObjects(List<GameObject> row)
       {
         for (int i = 0; i < row.Count; i++)
         {
           row[i].transform.position += new UnityEngine.Vector3(1000,1000,1000);
         }
+        row.Clear();
       }
 
 }

@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
-public class GameManajer : MonoBehaviour //********************Me falat implementar que si juega un clima y no ha cambiado carta no pueda hacerlo en otras palabras hacer wque la condicion bajo la cual se puede jugar una carta al igual que las otras antes tienes qu ehaber cambiado de carta 
+public class GameManajer : MonoBehaviour 
 {
     public GameObject HandPlayerAssassin;
     public GameObject HandPlayerTemplar;
@@ -18,8 +18,7 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
     public GameObject Assassinsdeck;
     public GameObject[] CardsHandAssassin;
     public GameObject[] CardsHandTemplar;
-    public GameObject Board;
-    public Canvas canvas; // Solo lo necesito para si apagarlo cundo gane la ronda 
+    public GameObject Board; 
     public Sprite AssassinsCardsBack;
     public Sprite TemplarsCardsBack;
     public bool AssassinPlay;
@@ -84,7 +83,7 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
     // Update is called once per frame Vector3(-216,91,0)
     void Update()
     {
-        if(AssassinRoundWins == 2)
+        if(AssassinRoundWins == 2 && TemplarRoundWins != 2)
         {
             AssassinPlay = true;
             AssassinInterfaceOfWin.SetActive(true);
@@ -92,7 +91,7 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
             AssassinPointsText.gameObject.transform.localScale = new UnityEngine.Vector3(0,0,0);
             TemplarsPointsText.gameObject.transform.localScale = new UnityEngine.Vector3(0,0,0);
         }
-        if(TemplarRoundWins == 2)
+        if(TemplarRoundWins == 2 && AssassinRoundWins != 2)
         {
             AssassinPlay = true;
             TemplarInterfaceOfWin.SetActive(true);
@@ -100,14 +99,17 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
             AssassinPointsText.gameObject.transform.localScale = new UnityEngine.Vector3(0,0,0);
             TemplarsPointsText.gameObject.transform.localScale = new UnityEngine.Vector3(0,0,0);
         }
+        if(TemplarRoundWins == 2 && AssassinRoundWins == 2)
+        {
+            Board.SetActive(false);
+            Debug.Log("Empate");
+        }
         if(AssassinPlay)    
         {   
             TemplarPoints += SumPoints(Board.GetComponent<BoardScript>().TemplarsMAttack,Board.GetComponent<BoardScript>().TemplarsRAttack,Board.GetComponent<BoardScript>().TemplarSAttack);
             TemplarsPointsText.text = TemplarPoints.ToString();
             AssassinPointsText.text= AssassinPoints.ToString();
-            
-            
-            
+        
         }
 
         if(TemplarsPlay)
@@ -168,6 +170,15 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
                 AssassinPlay= false;
                 TemplarsPlay= true;
             }
+
+             if(TemplarPoints == AssassinPoints)
+            {
+                TemplarRoundWins++;
+                AssassinRoundWins++;
+                AssassinPlay= true;
+                TemplarsPlay= false;
+            }
+            
             AssassinPoints = 0;
             TemplarPoints  = 0;
             CounterPassRound =0;
@@ -345,7 +356,7 @@ public class GameManajer : MonoBehaviour //********************Me falat implemen
             if(CardsHandNeutral[i] == gameObject)
             return i;
         }
-        return -1; // Verify this
+        return 0; // Verify this
     }
 
     public int PositionsNoNull (GameObject[] CardsHandeNeutral)

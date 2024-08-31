@@ -5216,6 +5216,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 791001231}
     m_Modifications:
+    - target: {fileID: 1346036264400586269, guid: e18a864f2918c6c15b5cfce0c3401a53, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6179353316390285046, guid: e18a864f2918c6c15b5cfce0c3401a53, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -5230,7 +5234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6204314371913320331, guid: e18a864f2918c6c15b5cfce0c3401a53, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 6204314371913320331, guid: e18a864f2918c6c15b5cfce0c3401a53, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6324,7 +6328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1121351203978334044, guid: 5419f5672d8b4fef8a824fbc8b8de6d6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 1121351203978334044, guid: 5419f5672d8b4fef8a824fbc8b8de6d6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6361,6 +6365,10 @@ PrefabInstance:
     - target: {fileID: 2927837940150454572, guid: 5419f5672d8b4fef8a824fbc8b8de6d6, type: 3}
       propertyPath: m_Name
       value: Al Mualim
+      objectReference: {fileID: 0}
+    - target: {fileID: 3727381748134945665, guid: 5419f5672d8b4fef8a824fbc8b8de6d6, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

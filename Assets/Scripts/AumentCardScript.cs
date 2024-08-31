@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//PUEDE QUE EXPLOTE LAS DIRECCIONES XQ NUNCA SE ELIMINA LAS CARTAS CLIMA, LOS DESPEJES Y LOS AUMENTOS 
 public class AumentCardScript : MonoBehaviour
 {
     public string NameCard;
@@ -29,7 +28,7 @@ public class AumentCardScript : MonoBehaviour
 
       Board        = GameObject.FindGameObjectWithTag("board");
       ZoomAssassin = GameObject.FindGameObjectWithTag("Zoom Assassin");
-      ZoomTemplar = GameObject.FindGameObjectWithTag("Zoom Templar");
+      ZoomTemplar  = GameObject.FindGameObjectWithTag("Zoom Templar");
       GameManager  = GameObject.FindGameObjectWithTag("Game Manager");
     }
 
