@@ -7,7 +7,16 @@ public class WeatherCard : ScriptableObject
 {
         public string NameCard;
         public UnityCard.EnumTypeCard TypeCard;
-        public UnityCard.EnumEfects EfectCard;
+        public UnityCard.EnumEfects EffectCard;
         public UnityCard.EnumFactionCard FactionCard;
         public UnityCard.EnumTypeClimAndClean TypeClim;
+
+        public WeatherCard(string name, UnityCard.EnumTypeCard typeCard, UnityCard.EnumEfects effectCard, UnityCard.EnumFactionCard factionCard, UnityCard.EnumTypeClimAndClean typeClim)
+        {
+                NameCard = name;
+                TypeCard = typeCard;
+                EffectCard = effectCard;
+                FactionCard = factionCard;
+                TypeClim = typeClim;
+        }
 }

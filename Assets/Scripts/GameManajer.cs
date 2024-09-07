@@ -12,6 +12,7 @@ using UnityEngine.XR;
 
 public class GameManajer : MonoBehaviour 
 {
+    //public static GameManajer GameManger;
     public GameObject HandPlayerAssassin;
     public GameObject HandPlayerTemplar;
     public GameObject Templarsdeck;
@@ -55,6 +56,7 @@ public class GameManajer : MonoBehaviour
     
     void Start()
     {
+        //GameManger = this;
         AssassinPlay             = true;
         Assassinsdeck            = GameObject.FindGameObjectWithTag("Assassins");
         Templarsdeck             = GameObject.FindGameObjectWithTag("TemplarsDeck");

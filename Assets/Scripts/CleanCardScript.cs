@@ -26,7 +26,7 @@ public class CleanCardScript : MonoBehaviour
     {
       NameCard        = cleanCard.NameCard;
       TypeClean       = cleanCard.TypeClean;
-      EfectCard       = cleanCard.EfectCard;
+      EfectCard       = cleanCard.EffectCard;
       FactionCard     = cleanCard.FactionCard;
 
       Board        = GameObject.FindGameObjectWithTag("board");

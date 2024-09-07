@@ -9,7 +9,7 @@ public class BossesEfect : MonoBehaviour
 {
     private string NameCard;
     private UnityCard.EnumTypeCard TypeCard;
-    private UnityCard.EnumFactionCard factionCard;
+    internal UnityCard.EnumFactionCard factionCard;
     private GameObject GameManager;
     private GameObject Strongest;
     private GameObject Board;

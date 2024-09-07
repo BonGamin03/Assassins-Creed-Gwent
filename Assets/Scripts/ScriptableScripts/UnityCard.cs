@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "New Unity Card", menuName = "Unity Card")]
 public class UnityCard : ScriptableObject
 {
@@ -14,35 +15,17 @@ public class UnityCard : ScriptableObject
     public EnumFactionCard FactionCard;
     
 
-    
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    public enum EnumEfects
+    public UnityCard (string name, EnumTypeAttackCard typeAttackCard, EnumTypeCard typeCard, EnumTypeUnity typeUnity, int pointAttackCard, EnumEfects effectCard, EnumFactionCard factionCard )
+    {
+        NameCard = name;
+        TypeAttackCard = typeAttackCard;
+        TypeCard = EnumTypeCard.UnityCard;
+        PointAttackCard = pointAttackCard;
+        EfectCard = effectCard;
+        FactionCard = factionCard;
+    }
+     
+public enum EnumEfects
 {
     AltairEffect,
     Al_Mualim_Effect,

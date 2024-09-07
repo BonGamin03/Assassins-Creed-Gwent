@@ -5,11 +5,11 @@ class Parser
     //Me falta poneer en el parser que las lis de Amount y esas tallas deben tener al menos un elemento 
     static void Main(){
         // List<Token> tokens = Lexer.Lexing("effect{ Name: \"Damage\", Params:{Amount : Number} }");
-        //Parser parser = new Parser(new List<Token>(){new Token("effect",TokenType.EFFECT), new Token("{",TokenType.OPEN_KEY),new Token("Name",TokenType.NAME),new Token(":",TokenType.TWO_POINTS),new Token("Damage",TokenType.STRING),new Token(",",TokenType.COMMA),new Token("Params",TokenType.PARAMS),new Token(":",TokenType.TWO_POINTS),new Token("{",TokenType.OPEN_KEY),new Token("Amount",TokenType.ID),new Token(":",TokenType.TWO_POINTS),new Token("Number",TokenType.NUMBER_PARAM),new Token("}",TokenType.CLOSE_KEY),new Token(",",TokenType.COMMA),new Token("Action",TokenType.ACTION),new Token(":",TokenType.TWO_POINTS),new Token("(",TokenType.OPEN_PARENTHESIS),new Token("targets",TokenType.ID),new Token(",",TokenType.COMMA),new Token("context",TokenType.ID),new Token(")",TokenType.CLOSE_PARENTHESIS),new Token("=>",TokenType.LAMBDA_EXPR),new Token("{",TokenType.OPEN_KEY),new Token("for",TokenType.FOR),new Token("target",TokenType.ID),new Token("in",TokenType.IN),new Token("targets",TokenType.ID),new Token("{",TokenType.OPEN_KEY),new Token("i",TokenType.ID),new Token("=",TokenType.EQUAL),new Token("0",TokenType.NUMBER),new Token(";",TokenType.COMMA_POINT),new Token("while",TokenType.WHILE),new Token("(",TokenType.OPEN_PARENTHESIS),new Token("5",TokenType.NUMBER),new Token(">",TokenType.GREATHER),new Token("Amount",TokenType.ID),new Token(")",TokenType.CLOSE_PARENTHESIS),new Token("target",TokenType.ID),new Token("-=",TokenType.MINUS_EQUAL),new Token("1",TokenType.NUMBER),new Token(";",TokenType.COMMA_POINT),new Token("}",TokenType.CLOSE_KEY),new Token(";",TokenType.COMMA_POINT),new Token("}",TokenType.CLOSE_KEY),new Token("/0",TokenType.END)});
+        Parser parser = new Parser(new List<Token>(){new Token("effect",TokenType.EFFECT), new Token("{",TokenType.OPEN_KEY),new Token("Name",TokenType.NAME),new Token(":",TokenType.TWO_POINTS),new Token("Damage",TokenType.STRING),new Token(",",TokenType.COMMA),new Token("Params",TokenType.PARAMS),new Token(":",TokenType.TWO_POINTS),new Token("{",TokenType.OPEN_KEY),new Token("Amount",TokenType.ID),new Token(":",TokenType.TWO_POINTS),new Token("Number",TokenType.NUMBER_PARAM),new Token("}",TokenType.CLOSE_KEY),new Token(",",TokenType.COMMA),new Token("Action",TokenType.ACTION),new Token(":",TokenType.TWO_POINTS),new Token("(",TokenType.OPEN_PARENTHESIS),new Token("targets",TokenType.ID),new Token(",",TokenType.COMMA),new Token("context",TokenType.ID),new Token(")",TokenType.CLOSE_PARENTHESIS),new Token("=>",TokenType.LAMBDA_EXPR),new Token("{",TokenType.OPEN_KEY),new Token("for",TokenType.FOR),new Token("target",TokenType.ID),new Token("in",TokenType.IN),new Token("targets",TokenType.ID),new Token("{",TokenType.OPEN_KEY),new Token("i",TokenType.ID),new Token("=",TokenType.EQUAL),new Token("0",TokenType.NUMBER),new Token(";",TokenType.COMMA_POINT),new Token("while",TokenType.WHILE),new Token("(",TokenType.OPEN_PARENTHESIS),new Token("5",TokenType.NUMBER),new Token(">",TokenType.GREATHER),new Token("Amount",TokenType.ID),new Token(")",TokenType.CLOSE_PARENTHESIS),new Token("target",TokenType.ID),new Token("-=",TokenType.MINUS_EQUAL),new Token("1",TokenType.NUMBER),new Token(";",TokenType.COMMA_POINT),new Token("}",TokenType.CLOSE_KEY),new Token(";",TokenType.COMMA_POINT),new Token("}",TokenType.CLOSE_KEY),new Token("/0",TokenType.END)});
         // Parser parser = new Parser(new List<Token>(){new Token("card",TokenType.CARD), new Token("{",TokenType.OPEN_KEY), new Token("Type",TokenType.TYPE), new Token(":",TokenType.TWO_POINTS), new Token("Oro",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Name",TokenType.NAME), new Token(":",TokenType.TWO_POINTS), new Token("Beluga",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Faction",TokenType.FACTION), new Token(":",TokenType.TWO_POINTS), new Token("Assassins",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Power",TokenType.POWER), new Token(":",TokenType.TWO_POINTS), new Token("10",TokenType.NUMBER), new Token(",",TokenType.COMMA), new Token("Range",TokenType.RANGE), new Token(":",TokenType.TWO_POINTS), new Token("[",TokenType.OPEN_BRACKET), new Token("Melee",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Ranged",TokenType.STRING), new Token("]",TokenType.CLOSE_BRACKET), new Token(",",TokenType.COMMA), new Token("OnActivation",TokenType.ON_ACTIVATION), new Token(":",TokenType.TWO_POINTS), new Token("[",TokenType.OPEN_BRACKET), new Token("{",TokenType.OPEN_KEY), new Token("Effect",TokenType.EFFECT_CARD), new Token(":",TokenType.TWO_POINTS), new Token("{",TokenType.OPEN_KEY), new Token("Name",TokenType.NAME), new Token(":",TokenType.TWO_POINTS), new Token("Damage",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Amount",TokenType.ID), new Token(":",TokenType.TWO_POINTS), new Token("5",TokenType.NUMBER), new Token(",",TokenType.COMMA), new Token("}",TokenType.CLOSE_KEY), new Token(",",TokenType.COMMA), new Token("Selector",TokenType.SELECTOR), new Token(":",TokenType.TWO_POINTS), new Token("{",TokenType.OPEN_KEY), new Token("Source",TokenType.SOURCE), new Token(":",TokenType.TWO_POINTS), new Token("board",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Single",TokenType.SINGLE), new Token(":",TokenType.TWO_POINTS), new Token("false",TokenType.FALSE), new Token(",",TokenType.COMMA), new Token("Predicate",TokenType.PREDICATE), new Token(":",TokenType.TWO_POINTS), new Token("(",TokenType.OPEN_PARENTHESIS), new Token("unit",TokenType.ID), new Token(")",TokenType.CLOSE_PARENTHESIS), new Token("=>",TokenType.LAMBDA_EXPR), new Token("unit",TokenType.ID), new Token("==",TokenType.EQUAL_EQUAL), new Token("Assassins",TokenType.STRING), new Token("}",TokenType.CLOSE_KEY), new Token(",",TokenType.COMMA), new Token("PostAction",TokenType.POST_ACTION), new Token(":",TokenType.TWO_POINTS), new Token("{",TokenType.OPEN_KEY), new Token("Type",TokenType.TYPE), new Token(":",TokenType.TWO_POINTS), new Token("Return to deck",TokenType.STRING), new Token(",",TokenType.COMMA),new Token("Selector",TokenType.SELECTOR), new Token(":",TokenType.TWO_POINTS), new Token("{",TokenType.OPEN_KEY),new Token("Source",TokenType.SOURCE), new Token(":",TokenType.TWO_POINTS), new Token("board",TokenType.STRING), new Token(",",TokenType.COMMA), new Token("Single",TokenType.SINGLE), new Token(":",TokenType.TWO_POINTS), new Token("false",TokenType.FALSE), new Token(",",TokenType.COMMA), new Token("Predicate",TokenType.PREDICATE), new Token(":",TokenType.TWO_POINTS), new Token("(",TokenType.OPEN_PARENTHESIS), new Token("unit",TokenType.ID), new Token(")",TokenType.CLOSE_PARENTHESIS), new Token("=>",TokenType.LAMBDA_EXPR), new Token("unit",TokenType.ID), new Token("==",TokenType.EQUAL_EQUAL), new Token("Assassins",TokenType.STRING), new Token("}",TokenType.CLOSE_KEY), new Token("}",TokenType.CLOSE_KEY), new Token("}",TokenType.CLOSE_KEY), new Token(",",TokenType.COMMA), new Token("{",TokenType.OPEN_KEY), new Token("Effect",TokenType.EFFECT_CARD), new Token(":",TokenType.TWO_POINTS), new Token("Draw",TokenType.STRING), new Token("}",TokenType.CLOSE_KEY), new Token("]",TokenType.CLOSE_BRACKET), new Token("}",TokenType.CLOSE_KEY)});
-        // ProgrNode ? Tree = parser.Parsing();
+        ProgrNode ? Tree = parser.Parsing();
 
-           Expr expr = new BinaryExpr(new Number("5"),new Token("+",TokenType.PLUS),new Number("3"));
+           //Expr expr = new BinaryExpr(new Number("5"),new Token("+",TokenType.PLUS),new Number("3"));
            //var Var= expr.Evaluate(null!);
            //System.Console.WriteLine(Var);
     }
@@ -32,9 +32,9 @@ class Parser
             EffectNode effect = ParseEffect();
             programNode.EffectNodes?.Add(effect);
 
-        }else if(Match(TokenType.CARD)){
+        }else if(Match(TokenType.CARD_DATA)){
 
-            CardNode card = ParseCard();
+            CardDec card = ParseCard();
             programNode .CardNodes?.Add(card);
             
         }else
@@ -45,9 +45,9 @@ class Parser
         return programNode;
     }
 
-    private CardNode ParseCard()
+    private CardDec ParseCard()
     {
-        CardNode ? card = new ();
+        CardDec ? card = new ();
        
        if(Match(TokenType.OPEN_KEY)){
 
@@ -67,7 +67,7 @@ class Parser
        if(Match(TokenType.OPEN_KEY)){
 
             effect = MachineEffect(effect);
-            CheckPKB(TokenType.CLOSE_KEY, "} EXPECTED");
+          //  CheckPKB(TokenType.CLOSE_KEY, "} EXPECTED"); // Se explota con esto 
        }else{
             throw new Exception("Open key is missing");
        }
@@ -151,7 +151,7 @@ class Parser
             if(Match(TokenType.OPEN_KEY)){
 
                 ParamsEffect.NameParam = AmountList();
-                CheckPKB(TokenType.CLOSE_KEY,"} EXPECTED");
+
             }
         }else{
             throw new Exception(" Invalid token we expect a :");
@@ -214,7 +214,7 @@ class Parser
 
                 while (!Match(TokenType.CLOSE_KEY) && Tokens[Current].TokenType != TokenType.END)
                 {
-                     body?.Add(CheckBodyStat());
+                     body?.Enqueue(CheckBodyStat());
                      CheckPKB(TokenType.CLOSE_KEY,"}");
                 }
                 
@@ -223,7 +223,7 @@ class Parser
                 throw new Exception("{ EXPECTED");
             }
        }else{
-            body?.Add(Expretion());
+            body?.Enqueue(Expretion());
        }
     }
 
@@ -260,7 +260,7 @@ class Parser
 
             while(!Match(TokenType.CLOSE_KEY) && Tokens[Current].TokenType != TokenType.END)
             {
-                whileExp.Body?.Exprs?.Add(CheckBodyStat());
+                whileExp.Body?.Exprs?.Enqueue(CheckBodyStat());
             }
             
             if(Match(TokenType.CLOSE_KEY)){
@@ -270,7 +270,7 @@ class Parser
             }
         }else{
 
-            whileExp.Body?.Exprs?.Add(CheckBodyStat());
+            whileExp.Body?.Exprs?.Enqueue(CheckBodyStat());
         }
        }else{
          throw new Exception("( EXPECTED");
@@ -315,9 +315,9 @@ class Parser
 
                         while(!Match(TokenType.CLOSE_KEY) && Tokens[Current].TokenType != TokenType.END)
                         {
-                            forExp.ForBody?.Exprs?.Add(CheckBodyStat());
+                            forExp.ForBody?.Exprs?.Enqueue(CheckBodyStat());
                         }
-                        CheckPKB(TokenType.CLOSE_KEY,"} EXPECTED");
+                        // CheckPKB(TokenType.CLOSE_KEY,"} EXPECTED");
                         
                         if(Match(TokenType.COMMA_POINT)){
                             
@@ -404,7 +404,7 @@ class Parser
 
     //Card Declaration
 
-     private CardNode MachineCard(CardNode card)
+     private CardDec MachineCard(CardDec card)
     {
             if(Match(TokenType.NAME)){
                 if(card.Name is null){
@@ -568,7 +568,7 @@ class Parser
 
         }else if(Match(TokenType.POST_ACTION)){
 
-            postAction.PostActionAsig = ParsingPosAction();
+            postAction.PostActionSon = ParsingPosAction();
             CheckComma(postAction);
 
         }
@@ -876,7 +876,7 @@ class Parser
 
             if(node is EffectNode node1) 
                 MachineEffect(node1);
-            else if(node is CardNode node2)
+            else if(node is CardDec node2)
                 MachineCard(node2);
             else if(node is List<OnActivationStat> node5)
                 EffectListCard(node5);

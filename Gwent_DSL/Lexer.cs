@@ -151,7 +151,7 @@ public static class Lexer
             return TokenType.EFFECT;
 
              case "card":
-            return TokenType.CARD;
+            return TokenType.CARD_DATA;
 
              case "Name":
             return TokenType.NAME;

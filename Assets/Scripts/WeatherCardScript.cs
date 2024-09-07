@@ -24,7 +24,7 @@ public class WeatherCardScript : MonoBehaviour
       NameCard        = weatherCard.NameCard;
       TypeCard        = weatherCard.TypeCard;
       TypeClim        = weatherCard.TypeClim;
-      EfectCard       = weatherCard.EfectCard;
+      EfectCard       = weatherCard.EffectCard;
       FactionCard     = weatherCard.FactionCard;
 
       Board   = GameObject.FindGameObjectWithTag("board");
