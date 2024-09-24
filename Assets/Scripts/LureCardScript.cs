@@ -18,6 +18,8 @@ public class LureCardScript : MonoBehaviour
     public GameObject ZoomAssassin;
     public GameObject ZoomTemplar;
     [SerializeField] LureCard LureCard;
+
+    public int Owner {get => LureCard.FactionCard == UnityCard.EnumFactionCard.Assassins ? 1 : 2;}
     void Start() 
     {
       NameCard        = LureCard.NameCard;
@@ -35,14 +37,14 @@ public class LureCardScript : MonoBehaviour
     {
          if(GameManager.GetComponent<GameManajer>().AssassinPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Lure Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<LureCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Lure Card"))
                 {
@@ -56,14 +58,14 @@ public class LureCardScript : MonoBehaviour
 
       if(GameManager.GetComponent<GameManajer>().TemplarsPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Lure Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<LureCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Lure Card"))
                 {

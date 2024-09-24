@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sunshine
   m_EditorClassIdentifier: 
   NameCard: Sunshine
-  EfectCard: 12
+  EffectCard: 12
   FactionCard: 2
   TypeClean: 1

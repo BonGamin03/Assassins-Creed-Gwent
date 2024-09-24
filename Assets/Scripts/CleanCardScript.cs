@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 public class CleanCardScript : MonoBehaviour
 {
-
+    //El effecto de los despejes no esta funcionando bien 
     public string NameCard;
     public UnityCard.EnumEfects EfectCard;
     public UnityCard.EnumFactionCard FactionCard;
@@ -20,6 +20,8 @@ public class CleanCardScript : MonoBehaviour
     public GameObject ZoomAssassin;
     public GameObject ZoomTemplar;
     [SerializeField] CleanCard cleanCard;
+
+    public double Owner {get => cleanCard.FactionCard == UnityCard.EnumFactionCard.Assassins ? 1 : 2;}
     
     //Verificar la pincha de los climas que dan error cuando se juega un despeje 
     void Start() 
@@ -39,14 +41,14 @@ public class CleanCardScript : MonoBehaviour
     {
       if(GameManager.GetComponent<GameManajer>().AssassinPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Clean Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<CleanCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Clean Card"))
                 {
@@ -57,14 +59,14 @@ public class CleanCardScript : MonoBehaviour
 
       if(GameManager.GetComponent<GameManajer>().TemplarsPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Clean Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<CleanCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Clean Card"))
                 {

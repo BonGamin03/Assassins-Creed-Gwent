@@ -9,4 +9,14 @@ public class BossCard : ScriptableObject
    public UnityCard.EnumTypeCard TypeCard;
    public UnityCard.EnumFactionCard FactionCard;
 
+   public UnityCard.EnumEfects _Effect;
+
+    public BossCard(string name, UnityCard.EnumTypeCard typeCard, UnityCard.EnumEfects effect, UnityCard.EnumFactionCard factionCard)
+    {
+         NameCard = name;
+         TypeCard = typeCard;
+         _Effect = effect;
+         FactionCard = factionCard;
+
+    }
 }

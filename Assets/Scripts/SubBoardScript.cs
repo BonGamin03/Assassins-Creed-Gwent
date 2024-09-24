@@ -26,13 +26,5 @@ public class SubBoardScript : MonoBehaviour
     public GameObject AumentS;
     public bool MaskAumentS;
 
-    public SubBoardScript()
-    {
-
-    }
-
-    void Start()
-    {
-        
-    }
+    
 }

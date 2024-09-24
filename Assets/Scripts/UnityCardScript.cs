@@ -10,7 +10,7 @@ public class UnityCardScript : MonoBehaviour
 {
     public string NameCard;
     public GameObject Board;
-    public UnityEngine.Vector3 positionOfCard; //Se utiliza para el cambio del senuelo
+    public Vector3 positionOfCard; //Se utiliza para el cambio del senuelo
     public GameObject ZoomAssasin;
     public GameObject ZoomTemplar; //Game Object del Zoom
     public bool IsPlayed; // Se utiliza para que a la vez que se juege la carta no puedaa volver a ser jugada 
@@ -31,10 +31,13 @@ public class UnityCardScript : MonoBehaviour
     public Sprite TemplarsCardsBack; 
     public Sprite AssassinsCardsBack;
     
+    public  UnityCard unityCard;
+    public static UnityCardScript Instance;
+    
+    public double Owner {get => unityCard.FactionCard == UnityCard.EnumFactionCard.Assassins ? 1 : 2;}
 
-    [SerializeField] UnityCard unityCard;
 
-    void Start()
+    public void Start()
     {
       NameCard        = unityCard.NameCard;
       TypeCard        = unityCard.TypeCard;
@@ -43,6 +46,7 @@ public class UnityCardScript : MonoBehaviour
       PointAttackCard = unityCard.PointAttackCard;
       EfectCard       = unityCard.EfectCard;
       FactionCard     = unityCard.FactionCard;
+    
 
       Board       = GameObject.FindGameObjectWithTag("board");
       ZoomAssasin = GameObject.FindGameObjectWithTag("Zoom Assassin");
@@ -55,7 +59,7 @@ public class UnityCardScript : MonoBehaviour
       // Las siguientes lineas simulan la rotacion de la carta entre turnos
         if(GameManager.GetComponent<GameManajer>().AssassinPlay)
         {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
               if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null)
               {
@@ -65,7 +69,7 @@ public class UnityCardScript : MonoBehaviour
                 }
               }
             }
-            for (int j = 0; j < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; j++)
+            for (int j = 0; j < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; j++)
             {
               if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[j] != null)
               {
@@ -79,7 +83,7 @@ public class UnityCardScript : MonoBehaviour
 
         if(GameManager.GetComponent<GameManajer>().TemplarsPlay)
         {
-          for (int j = 0; j < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; j++)
+          for (int j = 0; j < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; j++)
             {
                if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[j] != null)
               {
@@ -89,7 +93,7 @@ public class UnityCardScript : MonoBehaviour
                 }
               }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
                if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null)
               {
@@ -223,7 +227,7 @@ public class UnityCardScript : MonoBehaviour
         }
       }
     }
-
+      Effects.GetTipe(gameObject);
       GameManager.GetComponent<GameManajer>().AssassinPlay = false;
       GameManager.GetComponent<GameManajer>().TemplarsPlay = true;
   }
@@ -276,31 +280,13 @@ public class UnityCardScript : MonoBehaviour
         }
       }
     }
-
+      Effects.GetTipe(gameObject);
       GameManager.GetComponent<GameManajer>().AssassinPlay = true;
       GameManager.GetComponent<GameManajer>().TemplarsPlay = false;
   }
   //Efectos de las especiales 
 
-    switch (gameObject.GetComponent<UnityCardScript>().EfectCard)
-    {
-      
-      case UnityCard.EnumEfects.Alexios_ShayCormacEffect:
-        PortalAlexios_ShayCormacEffect(gameObject.GetComponent<UnityCardScript>().FactionCard);
-        gameObject.GetComponent<UnityCardScript>().EfectActivated = true;
-      break;
-
-      case UnityCard.EnumEfects.Arno_GermainEfect:
-        PutAnAument();
-        gameObject.GetComponent<UnityCardScript>().EfectActivated = true;
-        break;
-
-      case UnityCard.EnumEfects.Edward_DeSableEffect:
-        Edward_LaureanoEffect(gameObject.GetComponent<UnityCardScript>().FactionCard);
-         gameObject.GetComponent<UnityCardScript>().EfectActivated = true;
-      break;
-
-    }
+    //Effects.GetTipe(gameObject);
 
     //ESTO ES PARA CAMBIAR LAS CARTAS//************** 
     if(!GameManager.GetComponent<GameManajer>().AlreadyChangedAssassin && GameManager.GetComponent<GameManajer>().AssassinPlay && gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins)
@@ -590,7 +576,7 @@ public class UnityCardScript : MonoBehaviour
       {
         if(factionCard == UnityCard.EnumFactionCard.Assassins)
         {
-          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
           {
               if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Weather Card "))
               {
@@ -676,7 +662,7 @@ public class UnityCardScript : MonoBehaviour
 
           if(factionCard == UnityCard.EnumFactionCard.Templar)
           {
-          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
           {
              if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Weather Card "))
               {
@@ -835,7 +821,7 @@ public class UnityCardScript : MonoBehaviour
       {
         if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins)
         {
-          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
           {
             if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Aument Card"))
             {
@@ -904,7 +890,7 @@ public class UnityCardScript : MonoBehaviour
 
         if(gameObject.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Templar)
         {
-          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+          for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
           {
             if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Aument Card"))
             {

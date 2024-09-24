@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Good Time
   m_EditorClassIdentifier: 
   NameCard: Good Time
-  EfectCard: 11
+  EffectCard: 11
   FactionCard: 2
   TypeClean: 0

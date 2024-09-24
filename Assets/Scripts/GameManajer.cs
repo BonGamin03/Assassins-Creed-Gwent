@@ -12,13 +12,15 @@ using UnityEngine.XR;
 
 public class GameManajer : MonoBehaviour 
 {
-    //public static GameManajer GameManger;
+    public static GameManajer GameManger;
+    public Field AssassinField;
+    public Field TemplarField;
     public GameObject HandPlayerAssassin;
     public GameObject HandPlayerTemplar;
     public GameObject Templarsdeck;
     public GameObject Assassinsdeck;
-    public GameObject[] CardsHandAssassin;
-    public GameObject[] CardsHandTemplar;
+    public List<GameObject> CardsHandAssassin;
+    public List<GameObject> CardsHandTemplar;
     public GameObject Board; 
     public Sprite AssassinsCardsBack;
     public Sprite TemplarsCardsBack;
@@ -28,8 +30,6 @@ public class GameManajer : MonoBehaviour
     public  int TemplarPoints;
     public  int AssassinRoundWins;
     public  int TemplarRoundWins;
-    public int RealNumberCardsInHandAssassin =0;
-    public int RealNumberCardsInHandTemplar =0;
     public int CounterPassRound; 
     public TMP_Text AssassinPointsText;
     public TMP_Text TemplarsPointsText;
@@ -50,36 +50,51 @@ public class GameManajer : MonoBehaviour
     public int MaxChangeTemplar;
     public bool AlreadyChangedTemplar;
     public bool LureIsReady;
-     
-   
 
-    
+    public Player AssassinPlayer { get; internal set; }
+    public Player TemplarPlayer { get; internal set; }
+    public Hand AssassinHand { get; private set; }
+    public Hand TemplarHand { get; private set; }
+    public GameObject TemplarsGraveyard { get; private set; }
+    public GameObject AssassinsGraveyard { get; private set; }
+
     void Start()
-    {
-        //GameManger = this;
+    {   //Falta crear la instancia de los cementerios para pasarselos a los players
+      
+
+        GameManger = this; //Cuidado con esto 
         AssassinPlay             = true;
         Assassinsdeck            = GameObject.FindGameObjectWithTag("Assassins");
         Templarsdeck             = GameObject.FindGameObjectWithTag("TemplarsDeck");
         Board                    = GameObject.FindGameObjectWithTag("board");
-                            
+      
+        var board = Board.GetComponent<BoardScript>();
+
+        AssassinField = new(board.AssassinsMAttack,board.AssassinsRAttack,board.AssassinsSAttack,board.maskAssassinMattack,board.maskAssassinRattack,board.maskAssassinSattack,board.AssassinsWeatherM,board.MaskAssassinsWeatherM,board.AssassinsWeatherR,board.MaskAssassinsWeatherR,board.AssassinsWeatherS,board.MaskAssassinsWeatherS, board.AssassinsAumentM, board.MaskAssassinsAumentM, board.AssassinsAumentR,board.MaskAssassinsAumentR,board.AssassinsAumentS,board.MaskAssassinsAumentS);
+        TemplarField = new(board.TemplarsMAttack, board.TemplarsRAttack, board.TemplarSAttack,board.maskTemplarMattack,board.maskTemplarRattack,board.maskTemplarSattack,board.TemplarsWeatherM,board.MaskTemplarsWeatherM,board.TemplarsWeatherR,board.MaskTemplarsWeatherR,board.TemplarsWeatherS,board.MaskTemplarsWeatherS, board.TemplarsAumentM, board.TemplarsAumentM, board.TemplarsAumentR,board.MaskTemplarsAumentR,board.TemplarsAumentS,board.MaskTemplarsAumentS);
+        AssassinPlayer = new (1, AssassinPlay, new Hand(CardsHandAssassin, PositionHandAssassin, HandPlayerAssassin, maskPositionHandAssassin), AssassinField, Assassinsdeck, AssassinsGraveyard);
+        TemplarPlayer = new (2, TemplarsPlay,  new Hand(CardsHandTemplar, PositionHandTemplar, HandPlayerTemplar, maskPositionHandTemplar), TemplarField, Templarsdeck, TemplarsGraveyard);
+
         for (int i = 0; i < 10; i++)
         {
-            int RandomIndexCard =UnityEngine.Random.Range(0,Assassinsdeck.GetComponent<DeckScript>().deck.Count);
+            int RandomIndexCardAssassin = UnityEngine.Random.Range(0,Assassinsdeck.GetComponent<DeckScript>().deck.Count);
+            int RandomIndexCardTemplar = UnityEngine.Random.Range(0,Templarsdeck.GetComponent<DeckScript>().deck.Count);
 
-            GameObject drawCardAssassin = Instantiate(Assassinsdeck.GetComponent<DeckScript>().deck[RandomIndexCard],PositionHandAssassin[i].transform.position,UnityEngine.Quaternion.identity);
+            GameObject drawCardAssassin = Instantiate(Assassinsdeck.GetComponent<DeckScript>().deck[RandomIndexCardAssassin],PositionHandAssassin[i].transform.position,UnityEngine.Quaternion.identity);
             drawCardAssassin.transform.SetParent(HandPlayerAssassin.transform,false);
             drawCardAssassin.transform.position = PositionHandAssassin[i].transform.position;
-            Assassinsdeck.GetComponent<DeckScript>().RemoveAt(RandomIndexCard);
+            Assassinsdeck.GetComponent<DeckScript>().RemoveAt(RandomIndexCardAssassin);
             AddCardToHand(CardsHandAssassin,drawCardAssassin);
             maskPositionHandAssassin[i] = true;
 
-            GameObject drawCardTemplar = Instantiate(Templarsdeck.GetComponent<DeckScript>().deck[RandomIndexCard],PositionHandTemplar[i].transform.position,Templarsdeck.transform.rotation);
+            GameObject drawCardTemplar = Instantiate(Templarsdeck.GetComponent<DeckScript>().deck[RandomIndexCardTemplar],PositionHandTemplar[i].transform.position,Templarsdeck.transform.rotation);
             drawCardTemplar.transform.SetParent(HandPlayerTemplar.transform, false);
             drawCardTemplar.transform.position = PositionHandTemplar[i].transform.position;
-            Templarsdeck.GetComponent<DeckScript>().RemoveAt(RandomIndexCard);
+            Templarsdeck.GetComponent<DeckScript>().RemoveAt(RandomIndexCardTemplar);
             AddCardToHand(CardsHandTemplar,drawCardTemplar);
             maskPositionHandTemplar[i] = true;
         }
+
     }
 
     // Update is called once per frame Vector3(-216,91,0)
@@ -131,7 +146,7 @@ public class GameManajer : MonoBehaviour
                     if(!maskPositionHandAssassin[j] && PositionsNoNull(CardsHandAssassin)<10)
                     {
                         int index = UnityEngine.Random.Range(0,Assassinsdeck.GetComponent<DeckScript>().deck.Count);
-                        GameObject drawCardAssassin = Instantiate(Assassinsdeck.GetComponent<DeckScript>().deck[index],PositionHandAssassin[j].transform.position,UnityEngine.Quaternion.identity);
+                        GameObject drawCardAssassin = Instantiate(Assassinsdeck.GetComponent<DeckScript>().deck[Assassinsdeck.GetComponent<DeckScript>().deck.Count-2],PositionHandAssassin[j].transform.position,UnityEngine.Quaternion.identity);
                         drawCardAssassin.transform.SetParent(HandPlayerAssassin.transform, false);
                         drawCardAssassin.transform.position = PositionHandAssassin[j].transform.position;
                         drawCardAssassin.transform.localScale = PositionHandAssassin[j].transform.localScale;
@@ -227,9 +242,9 @@ public class GameManajer : MonoBehaviour
         return points;
     }
 
-     public static bool IsInHand(GameObject[] TheHand, GameObject WeatherCard)
+     public static bool IsInHand(List<GameObject> TheHand, GameObject WeatherCard)
     {
-        for (int i = 0; i < TheHand.Length; i++)
+        for (int i = 0; i < TheHand.Count; i++)
         {
             if(TheHand[i] != null && TheHand[i] == WeatherCard)
             return true;
@@ -339,9 +354,9 @@ public class GameManajer : MonoBehaviour
     }
     //Metodos para hacer modificaciones en los Arrays CardsHandAssassin y CardsHandTemplar
 
-    public static void AddCardToHand(GameObject[] CardsHandNeutral, GameObject gameObject)
+    public static void AddCardToHand(List<GameObject> CardsHandNeutral, GameObject gameObject)
     {
-        for (int i = 0; i < CardsHandNeutral.Length; i++)
+        for (int i = 0; i < CardsHandNeutral.Count; i++)
         {
             if(CardsHandNeutral[i] == null)
             {
@@ -351,9 +366,9 @@ public class GameManajer : MonoBehaviour
         }
     }
 
-    public static int PositionOfGameObject(GameObject[] CardsHandNeutral, GameObject gameObject)
+    public static int PositionOfGameObject(List<GameObject> CardsHandNeutral, GameObject gameObject)
     {
-        for (int i = 0; i < CardsHandNeutral.Length; i++)
+        for (int i = 0; i < CardsHandNeutral.Count; i++)
         {
             if(CardsHandNeutral[i] == gameObject)
             return i;
@@ -361,10 +376,10 @@ public class GameManajer : MonoBehaviour
         return 0; // Verify this
     }
 
-    public int PositionsNoNull (GameObject[] CardsHandeNeutral)
+    public int PositionsNoNull (List<GameObject> CardsHandeNeutral)
     {
         int n = 0;
-        for (int i = 0; i < CardsHandeNeutral.Length; i++)
+        for (int i = 0; i < CardsHandeNeutral.Count; i++)
         {
             if(CardsHandeNeutral[i] != null)
             n++;
@@ -372,9 +387,9 @@ public class GameManajer : MonoBehaviour
         return n;
     }
 
-    public static int PositionInNull(GameObject[] CardsHandNeutral)
+    public static int PositionInNull(List<GameObject> CardsHandNeutral)
     {
-        for (int i = 0; i < CardsHandNeutral.Length; i++)
+        for (int i = 0; i < CardsHandNeutral.Count; i++)
         {
             if(CardsHandNeutral[i] == null)
             return i;
@@ -382,5 +397,12 @@ public class GameManajer : MonoBehaviour
         return 0;
     }
    
+//    public static void StartSimulator(GameObject gameObject)
+//    {
+//       Board        = GameObject.FindGameObjectWithTag("board");
+//       ZoomAssassin = GameObject.FindGameObjectWithTag("Zoom Assassin");
+//       ZoomTemplar = GameObject.FindGameObjectWithTag("Zoom Templar");
+//       GameManager  = GameObject.FindGameObjectWithTag("Game Manager");
+//    }
 }
     

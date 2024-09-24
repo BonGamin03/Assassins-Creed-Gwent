@@ -1,28 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
-public class Player
+public class Player 
 {
-   public int Id{get;set;}
-   public GameObject Camera{get;set;}
-   public GameObject Hand{get;set;}
-   public GameObject Field{get;set;}
+   public double Id{get;set;}
+   public bool IsHisTurn{get; set;}
+   public Hand Hand {get;set;}
+   public Field Field{get;set;}
    public GameObject Deck{get;set;}
    public GameObject Graveyard{get;set;}
-
-   public Player(GameObject camera, GameObject hand, GameObject field, GameObject deck, GameObject graveyard)
+   public  delegate void OperationFuncPlay();
+   public Player(int id, bool isHisTurn, Hand hand, Field field, GameObject deck, GameObject graveyard)
    {
-        Camera = camera;
-        Hand = hand;
-        Field = field;
-        Deck = deck;
-        Graveyard = graveyard; 
-
-        if(Camera.transform.rotation.z == 1){Id = 1;} else {Id = 0;} 
+          IsHisTurn = isHisTurn;
+          Id = id;
+          Hand = hand;
+          Field = field;
+          Deck = deck;
+          Graveyard = graveyard; 
    }
 
-    public Player()
-    {
-    }
+    public Player(){}
+
+    public List<GameObject> HandOfPlayer() => Hand.CardsHand;
+
+    public Field FieldOfPlayer() => Field;
+
+    public List<GameObject> GraveyardPlayer() => Graveyard.GetComponent<Graveyard>().DeadCards;
+    public List<GameObject> DeckOfPlayer() => Deck.GetComponent<DeckScript>().deck;
+
 }

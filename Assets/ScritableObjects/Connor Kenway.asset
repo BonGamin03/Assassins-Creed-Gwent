@@ -17,5 +17,5 @@ MonoBehaviour:
   TypeCard: 0
   TypeUnity: 1
   PointAttackCard: 3
-  EfectCard: 0
+  EfectCard: 14
   FactionCard: 0

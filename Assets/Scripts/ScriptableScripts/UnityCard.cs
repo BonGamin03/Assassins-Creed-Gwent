@@ -15,11 +15,12 @@ public class UnityCard : ScriptableObject
     public EnumFactionCard FactionCard;
     
 
-    public UnityCard (string name, EnumTypeAttackCard typeAttackCard, EnumTypeCard typeCard, EnumTypeUnity typeUnity, int pointAttackCard, EnumEfects effectCard, EnumFactionCard factionCard )
+    public UnityCard (string name, EnumTypeAttackCard typeAttackCard, EnumTypeUnity typeUnity, int pointAttackCard, EnumEfects effectCard, EnumFactionCard factionCard )
     {
         NameCard = name;
         TypeAttackCard = typeAttackCard;
         TypeCard = EnumTypeCard.UnityCard;
+        TypeUnity = typeUnity;
         PointAttackCard = pointAttackCard;
         EfectCard = effectCard;
         FactionCard = factionCard;
@@ -42,7 +43,10 @@ public enum EnumEfects
     CleanClimR,
     CleanClimS,
     NoEffect,
-}
+    BossesEffect,
+    EffectOfGwent_PlusPlus
+    
+    }
 
 public enum EnumTypeAttackCard
 {

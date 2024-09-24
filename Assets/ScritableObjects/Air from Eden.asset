@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameCard: Air from Eden
   TypeCard: 1
-  EfectCard: 7
-  FactionCard: 2
+  EffectCard: 7
   TypeClim: 2
+  IdParent: 0

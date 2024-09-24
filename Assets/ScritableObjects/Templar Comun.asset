@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameCard: Templar Comun
   TypeCard: 4
-  EfectCard: 13
+  EfectCard: 14
   FactionCard: 1
   PointAttackCard: 0

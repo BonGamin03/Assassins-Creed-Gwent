@@ -25,6 +25,10 @@ TagManager:
   - Aument Card
   - Zoom Templar
   - Lure Card
+  - Canvas Compiler
+  - AssassinsAsigCampiled
+  - TemplarsAsigCompiled
+  - CompiledCards
   layers:
   - Default
   - TransparentFX

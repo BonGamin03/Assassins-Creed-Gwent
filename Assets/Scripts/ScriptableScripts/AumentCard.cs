@@ -19,6 +19,7 @@ public class AumentCard : ScriptableObject
         RowAument = rowAument;
         FactionCard = factionCard;
     }
-    
+
+    public object TypeAttackCard { get; internal set; }
 }
 //Esta clase es para crear los Scriptable Objects de las cartas de aumento 

@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameCard: Rain
   TypeCard: 1
-  EfectCard: 6
-  FactionCard: 2
+  EffectCard: 6
   TypeClim: 1

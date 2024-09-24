@@ -5,11 +5,8 @@ using UnityEngine;
 
 
 public class BoardScript : MonoBehaviour {
-    
-        // public GameObject BossCard;
-        //public List<GameObject> Cementery;
-
-        // Unity Cards Fields
+        
+        public static BoardScript InsBoard;
         public List<GameObject> AssassinsMAttack = new(7);
         public List<GameObject> TemplarsMAttack = new(7);
         public List<GameObject> AssassinsRAttack = new(7);
@@ -66,10 +63,9 @@ public class BoardScript : MonoBehaviour {
         public List<GameObject>AumentTemplars;
 
 
-
-       
-        
-
-
+        void Start(){
+                InsBoard = this;
+                
+        }
       
 }

@@ -1,0 +1,203 @@
+
+effect{
+  
+  Name: "Draw",
+  Action: (tragets,context) => {
+  
+  topCard = context.Deck.Pop();
+  context.Hand.Add(topCard);
+  context.Hand.Shuffle();
+  }
+}
+
+card{
+  Name: "Amaranto",
+  Type: "Oro",
+  Faction:"Assassins",
+  Power: 10,
+  Range:["Melee"],
+  OnActivation:[
+  
+  {Effect:"Draw"}
+  ]
+  
+}
+
+
+
+effect {
+ Name : "Draw" ,
+ Action: (targets , context) => {
+
+topCard= context.Deck.Pop();
+context.Hand.Add(topCard);
+context.Hand.Shuffle();
+}
+}
+
+effect {
+Name : "ReturnToDeck" ,
+Action: (targets , context) => {
+  for target in targets {
+
+   owner=target.Owner;
+   deck=context.DeckOfPlayer(owner);
+   deck.Push(target);
+  deck.Shuffle();
+  context.Board.Remove(target);
+      };
+     }
+  }
+
+effect {
+Name : "Damage" ,
+Params : {
+  Amount: Number
+},
+Action: (targets , context) => {
+  for target in targets {
+
+   i=0;
+  while (i++ <Amount)
+         target.Power-=1;
+      };
+     }
+  }
+
+card {
+        Name: "Amaranto",
+        Type: "Oro",
+        Faction:"Assassins",
+        Power: 10,
+        Range:["Melee"],
+         
+   OnActivation: [ 
+   {
+      Effect : {
+          Name : "Damage" ,
+          Amount : 2,
+    },
+       Selector : { 
+	Source : "board",
+          Single: false ,
+          Predicate: (unit)=> unit.Power >= 3
+  },
+     PostAction : {
+         Type : "ReturnToDeck" , 
+         Selector : {
+          Source : "otherField" ,
+          Predicate : (unit) => true
+       } ,
+    }
+} ,
+ { 
+     Effect: "Draw"
+  }
+]
+}
+
+
+#######Clima#######
+
+effect 
+                {
+                Name: "Weather",
+                Params: {
+                Amount: Number
+  
+                },
+                Action: (targets,context) => {
+                 for target in targets {
+                      target.Power-=Amount;           
+
+                };
+                }
+                } 
+
+
+ 
+
+
+
+card 
+                {
+                Type: "Clima" ,
+                Name: "Beluga",
+                Power: 0 ,
+                Range:["Melee", "Ranged"],
+                
+                OnActivation: 
+                [
+                {
+                Effect:
+                {
+                Name: "Weather" ,
+                Amount: 2 
+                
+                },
+                
+                Selector:{
+                	Source: "otherField"
+                }
+                
+                 
+                }
+                  
+                ]
+                }
+                
+                
+########Lider########
+
+		effect 
+                {
+                Name: "Weather",
+                Params: {
+                Amount: Number
+  
+                },
+                Action: (targets,context) => {
+                 for target in targets {
+                      target.Power-=Amount;           
+
+                };
+                }
+                } 
+
+
+ 
+
+
+
+card 
+                {
+                Type: "Lider" ,
+                Name: "Beluga",
+                Faction: "Assassins",
+                Power: 0 ,
+
+                OnActivation: 
+                [
+                {
+                Effect:
+                {
+                Name: "Weather" ,
+                Amount: 2 
+                
+                },
+                
+                Selector:{
+                	Source: "otherField",
+                	Single: false,
+                	Predicate : (unit) => unit.Name == "Elise de la Serre"
+                }
+                
+                 
+                }
+                  
+                ]
+                }
+                        
+    
+
+

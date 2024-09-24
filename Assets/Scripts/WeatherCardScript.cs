@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeatherCardScript : MonoBehaviour
@@ -7,7 +8,6 @@ public class WeatherCardScript : MonoBehaviour
     public string NameCard;
     public UnityCard.EnumTypeCard TypeCard;
     public UnityCard.EnumEfects EfectCard;
-    public UnityCard.EnumFactionCard FactionCard;
     public UnityCard.EnumTypeClimAndClean TypeClim;
     public bool IsPlayed;
     public GameObject GameManager;
@@ -17,7 +17,10 @@ public class WeatherCardScript : MonoBehaviour
     public Sprite TemplarsCardsBack;
     public GameObject ZoomAssassin;
     public GameObject ZoomTemplar;
-    [SerializeField] WeatherCard weatherCard;
+    public WeatherCard weatherCard;
+    public int IdParent;
+
+    public double Owner {get => IdParent;}
     // Start is called before the first frame update
    void Start()
     {
@@ -25,7 +28,7 @@ public class WeatherCardScript : MonoBehaviour
       TypeCard        = weatherCard.TypeCard;
       TypeClim        = weatherCard.TypeClim;
       EfectCard       = weatherCard.EffectCard;
-      FactionCard     = weatherCard.FactionCard;
+      IdParent        = GameObject.Find("AssassinsDeck").GetComponent<DeckScript>().deck.Contains(gameObject) ? 1 : 2;
 
       Board   = GameObject.FindGameObjectWithTag("board");
       ZoomAssassin = GameObject.FindGameObjectWithTag("Zoom Assassin");
@@ -33,17 +36,17 @@ public class WeatherCardScript : MonoBehaviour
       GameManager = GameObject.FindGameObjectWithTag("Game Manager");
     }
     void Update()
-    { // Las siguientes lineas simulan la rotacion de la carta entre turnos
+       { // Las siguientes lineas simulan la rotacion de la carta entre turnos
         if(GameManager.GetComponent<GameManajer>().AssassinPlay)
         {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Weather Card ") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<WeatherCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Weather Card "))
                 {
@@ -54,14 +57,14 @@ public class WeatherCardScript : MonoBehaviour
 
       if(GameManager.GetComponent<GameManajer>().TemplarsPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Weather Card ") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<WeatherCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Weather Card "))
                 {
@@ -88,6 +91,8 @@ public class WeatherCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().MaskAssassinsWeatherM = true;
                 Board.GetComponent<BoardScript>().WeatherAssassins.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
+                
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsMAttack.Count; i++)
                 {
                         if(Board.GetComponent<BoardScript>(). AssassinsMAttack[i] != null && !Board.GetComponent<BoardScript>().AssassinsMAttack[i].CompareTag("Lure Card") && !AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsMAttack[i])) //Probar que el null no sea aqui
@@ -106,6 +111,7 @@ public class WeatherCardScript : MonoBehaviour
                     }
                 }
             }
+            }
 
             if(gameObject.GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
             {
@@ -114,7 +120,8 @@ public class WeatherCardScript : MonoBehaviour
                 
                 Board.GetComponent<BoardScript>().WeatherAssassins.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
-
+                
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsRAttack.Count; i++)
                 {
                     if(Board.GetComponent<BoardScript>(). AssassinsRAttack[i] != null && !Board.GetComponent<BoardScript>(). AssassinsRAttack[i].CompareTag("Lure Card") && !AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsRAttack[i]))
@@ -134,6 +141,7 @@ public class WeatherCardScript : MonoBehaviour
                     }
                 }
             }
+            }
 
             if(gameObject.GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
             {
@@ -143,6 +151,7 @@ public class WeatherCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().WeatherAssassins.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
 
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsSAttack.Count; i++)
                 {
                     if(Board.GetComponent<BoardScript>(). AssassinsSAttack[i] != null && !Board.GetComponent<BoardScript>(). AssassinsSAttack[i].CompareTag("Lure Card") && !AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsSAttack[i]))
@@ -161,8 +170,9 @@ public class WeatherCardScript : MonoBehaviour
                         GameManager.GetComponent<GameManajer>().TemplarPoints -= 2;
                     }
                 }
+                }
             }
-            
+            Effects.GetTipe(gameObject);
             GameManager.GetComponent<GameManajer>().AssassinPlay = false;
             GameManager.GetComponent<GameManajer>().TemplarsPlay = true;
         }
@@ -178,6 +188,7 @@ public class WeatherCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().WeatherTemplars.Add(gameObject); 
                 GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
                 
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsMAttack.Count; i++)
                 {
                     if(Board.GetComponent<BoardScript>(). AssassinsMAttack[i] != null && !Board.GetComponent<BoardScript>().AssassinsMAttack[i].CompareTag("Lure Card") && !AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsMAttack[i]))
@@ -195,6 +206,7 @@ public class WeatherCardScript : MonoBehaviour
                         GameManager.GetComponent<GameManajer>().TemplarPoints -= 2;
                     }
                 }
+                }
             }
 
             if(gameObject.GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.R)
@@ -204,6 +216,7 @@ public class WeatherCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().WeatherTemplars.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
 
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsRAttack.Count; i++)
                 {   
 
@@ -223,6 +236,7 @@ public class WeatherCardScript : MonoBehaviour
                         GameManager.GetComponent<GameManajer>().TemplarPoints -= 2;
                     }
                 }    
+                }
             }
             
              if(gameObject.GetComponent<WeatherCardScript>().TypeClim == UnityCard.EnumTypeClimAndClean.S)
@@ -233,6 +247,7 @@ public class WeatherCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().WeatherTemplars.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
 
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsSAttack.Count; i++)
                 {
                     if(Board.GetComponent<BoardScript>(). AssassinsSAttack[i] != null && !Board.GetComponent<BoardScript>().AssassinsSAttack[i].CompareTag("Lure Card") && !AumentCardScript.IsGoldUnity(Board.GetComponent<BoardScript>().AssassinsSAttack[i]))
@@ -249,8 +264,10 @@ public class WeatherCardScript : MonoBehaviour
                         GameManager.GetComponent<GameManajer>().TemplarPoints -= 2;
                     }
                 }
+                }
 
             }
+                Effects.GetTipe(gameObject);
                 GameManager.GetComponent<GameManajer>().AssassinPlay = true;
                 GameManager.GetComponent<GameManajer>().TemplarsPlay = false;
             }
@@ -284,6 +301,7 @@ public class WeatherCardScript : MonoBehaviour
                 if(GameManager.GetComponent<GameManajer>().MaxChangeTemplar == 2) GameManager.GetComponent<GameManajer>().AlreadyChangedTemplar = true;
             }
         
+
 
     }
      

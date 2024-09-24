@@ -7,23 +7,25 @@ using UnityEngine;
 
 public class BossesEfect : MonoBehaviour
 {
-    private string NameCard;
+    internal string NameCard;
     private UnityCard.EnumTypeCard TypeCard;
     internal UnityCard.EnumFactionCard factionCard;
     private GameObject GameManager;
     private GameObject Strongest;
     private GameObject Board;
-
+    public UnityCard.EnumEfects Effect;
     public GameObject ZoomAssassin;
     public GameObject ZoomTemplar;
     public bool IsPlayed;
-    [SerializeField] BossCard bossCard;
+    public BossCard bossCard;
+
+    public int Owner {get => bossCard.FactionCard == UnityCard.EnumFactionCard.Assassins ? 1 : 2;}
     void Start()
     {
         NameCard = bossCard.NameCard;
         TypeCard = bossCard.TypeCard;
         factionCard = bossCard.FactionCard;
-
+        Effect = bossCard._Effect;
 
         ZoomAssassin = GameObject.FindGameObjectWithTag("Zoom Assassin");
         ZoomTemplar  = GameObject.FindGameObjectWithTag("Zoom Templar");
@@ -31,27 +33,8 @@ public class BossesEfect : MonoBehaviour
         Board       = GameObject.FindGameObjectWithTag("board");
     }
     private void OnMouseDown() {
-
-            if(!IsPlayed && gameObject.GetComponent<BossesEfect>().factionCard == UnityCard.EnumFactionCard.Assassins && GameManager.GetComponent<GameManajer>().AssassinPlay)
-            {
-              if(Board.GetComponent<BoardScript>().AssassinsMAttack.Count != 0 || Board.GetComponent<BoardScript>().AssassinsRAttack.Count != 0 || Board.GetComponent<BoardScript>().AssassinsSAttack.Count != 0)
-              {
-                IsPlayed = true;
-                Strongest = UnityCardScript.BiggestCard(Board.GetComponent<BoardScript>().AssassinsMAttack,Board.GetComponent<BoardScript>().AssassinsRAttack,Board.GetComponent<BoardScript>().AssassinsSAttack);
-                GameManager.GetComponent<GameManajer>().AssassinPoints += Strongest.GetComponent<UnityCardScript>().PointAttackCard;
-                GameManager.GetComponent<GameManajer>().AssassinPlay = false;
-                GameManager.GetComponent<GameManajer>().TemplarsPlay = true;
-              }
-            }
-            if(!IsPlayed && gameObject.GetComponent<BossesEfect>().factionCard == UnityCard.EnumFactionCard.Templar && GameManager.GetComponent<GameManajer>().TemplarsPlay )
-            {
-                IsPlayed = true;
-                GameManager.GetComponent<GameManajer>().AssassinPoints -= 7;
-                GameManager.GetComponent<GameManajer>().AssassinPlay = true;
-                GameManager.GetComponent<GameManajer>().TemplarsPlay = false;
-            }
-        
-
+        UnityEngine.Debug.Log(NameCard);;
+        Effects.GetTipe(gameObject);
     }
       void OnMouseEnter() 
       {

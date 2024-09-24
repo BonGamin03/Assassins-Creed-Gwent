@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: No Air
   m_EditorClassIdentifier: 
   NameCard: No AIr
-  EfectCard: 13
+  EffectCard: 13
   FactionCard: 2
   TypeClean: 2

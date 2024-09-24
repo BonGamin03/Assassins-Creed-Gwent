@@ -100,16 +100,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameCard: 
   Board: {fileID: 0}
+  positionOfCard: {x: 0, y: 0, z: 0}
   ZoomAssasin: {fileID: 0}
+  ZoomTemplar: {fileID: 0}
   IsPlayed: 0
   EfectActivated: 0
   AlreadySum: 0
+  AfectedByWeather: 0
   GameManager: {fileID: 0}
   TypeCard: 0
   TypeAttackCard: 0
   TypeUnity: 0
   PointAttackCard: 0
-  EfectCard: 0
+  EfectCard: 14
   FactionCard: 0
   CardsFront: {fileID: 21300000, guid: 60f561156842ae615a7e39cc80b9d92a, type: 3}
   TemplarsCardsBack: {fileID: 21300000, guid: 18b676613e93cc722860a5235c62eda3, type: 3}

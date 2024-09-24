@@ -17,7 +17,9 @@ public class AumentCardScript : MonoBehaviour
     public Sprite TemplarsCardsBack;
     public GameObject ZoomAssassin;
     public GameObject ZoomTemplar;
-    [SerializeField] AumentCard aumentCard;
+    public AumentCard aumentCard;
+
+    public double Owner {get => aumentCard.FactionCard == UnityCard.EnumFactionCard.Assassins ? 1 : 2;}
     void Start() 
     {
       NameCard        = aumentCard.NameCard;
@@ -36,14 +38,14 @@ public class AumentCardScript : MonoBehaviour
     {
          if(GameManager.GetComponent<GameManajer>().AssassinPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Aument Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].GetComponent<AumentCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Aument Card"))
                 {
@@ -54,14 +56,14 @@ public class AumentCardScript : MonoBehaviour
       
       if(GameManager.GetComponent<GameManajer>().TemplarsPlay)
       {
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Length;i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandTemplar.Count;i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandTemplar[i] != null && GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].CompareTag("Aument Card") )
                 {
                     GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<SpriteRenderer>().sprite = GameManager.GetComponent<GameManajer>().CardsHandTemplar[i].GetComponent<AumentCardScript>().CardsFront;
                 }
             }
-            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Length; i++)
+            for (int i = 0; i < GameManager.GetComponent<GameManajer>().CardsHandAssassin.Count; i++)
             {
                 if(GameManager.GetComponent<GameManajer>().CardsHandAssassin[i] != null && GameManager.GetComponent<GameManajer>().CardsHandAssassin[i].CompareTag("Aument Card"))
                 {
@@ -88,7 +90,7 @@ public class AumentCardScript : MonoBehaviour
               Board.GetComponent<BoardScript>().MaskAssassinsAumentM = true;
               Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
               GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
-              
+              if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
               for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsMAttack.Count; i++)
               {
                   if(Board.GetComponent<BoardScript>().AssassinsMAttack[i] != null)
@@ -99,6 +101,7 @@ public class AumentCardScript : MonoBehaviour
                     }
                   }
               }
+              }
           }
 
           if(gameObject.GetComponent<AumentCardScript>().RowAument == UnityCard.EnumTypeAttackCard.R)
@@ -107,7 +110,7 @@ public class AumentCardScript : MonoBehaviour
               Board.GetComponent<BoardScript>().MaskAssassinsAumentR = true;
               Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
               GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
-                     
+              if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){   
               for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsRAttack.Count; i++)
               {
                   if(Board.GetComponent<BoardScript>().AssassinsRAttack[i] != null)
@@ -118,6 +121,7 @@ public class AumentCardScript : MonoBehaviour
                       }
                   }
               }
+              }
           } 
                 
           if(gameObject.GetComponent<AumentCardScript>().RowAument == UnityCard.EnumTypeAttackCard.S)
@@ -127,6 +131,7 @@ public class AumentCardScript : MonoBehaviour
               Board.GetComponent<BoardScript>().AumentAssassins.Add(gameObject);
               GameManager.GetComponent<GameManajer>().CardsHandAssassin[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandAssassin,gameObject)] = null;
               
+              if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
               for (int i = 0; i < Board.GetComponent<BoardScript>().AssassinsSAttack.Count; i++)
               {
                   if(Board.GetComponent<BoardScript>().AssassinsSAttack[i] != null)
@@ -137,8 +142,9 @@ public class AumentCardScript : MonoBehaviour
                     }
                   }
               }   
+              }
           }
-
+          Effects.GetTipe(gameObject);
           GameManager.GetComponent<GameManajer>().TemplarsPlay = true;
           GameManager.GetComponent<GameManajer>().AssassinPlay = false;
       }
@@ -153,7 +159,8 @@ public class AumentCardScript : MonoBehaviour
               Board.GetComponent<BoardScript>().MaskTemplarsAumentM = true;
               Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
               GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
-                
+              
+              if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
               for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarsMAttack.Count; i++)
               {
                   if(Board.GetComponent<BoardScript>(). TemplarsMAttack[i] != null)
@@ -164,6 +171,7 @@ public class AumentCardScript : MonoBehaviour
                       }
                   }
               }
+              }
           }
           
           if(gameObject.GetComponent<AumentCardScript>().RowAument == UnityCard.EnumTypeAttackCard.R)
@@ -173,6 +181,7 @@ public class AumentCardScript : MonoBehaviour
               Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
               GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
               
+              if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
               for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarsRAttack.Count; i++)
               {
                   if(Board.GetComponent<BoardScript>(). TemplarsRAttack[i] != null)
@@ -183,6 +192,7 @@ public class AumentCardScript : MonoBehaviour
                       }
                   }
               }
+              }
            }
             
             if(gameObject.GetComponent<AumentCardScript>().RowAument == UnityCard.EnumTypeAttackCard.S)
@@ -192,7 +202,7 @@ public class AumentCardScript : MonoBehaviour
                 Board.GetComponent<BoardScript>().AumentTemplars.Add(gameObject);
                 GameManager.GetComponent<GameManajer>().CardsHandTemplar[GameManajer.PositionOfGameObject(GameManager.GetComponent<GameManajer>().CardsHandTemplar,gameObject)] = null;
 
-                
+                if(EfectCard != UnityCard.EnumEfects.EffectOfGwent_PlusPlus){
                 for (int i = 0; i < Board.GetComponent<BoardScript>().TemplarSAttack.Count; i++)
                 {
                     if(Board.GetComponent<BoardScript>(). TemplarSAttack[i] != null)
@@ -203,7 +213,10 @@ public class AumentCardScript : MonoBehaviour
                         }
                     }
                 }
+                }
             }
+
+            Effects.GetTipe(gameObject);
             GameManager.GetComponent<GameManajer>().TemplarsPlay = false;
           GameManager.GetComponent<GameManajer>().AssassinPlay = true;
         }
