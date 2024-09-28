@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class Selector : Expr
 {
-    public AssigmentExpr ? Source{get; set;}
-    public AssigmentExpr ? Single{get; set;}
-    public LambdaExpr ? Predicate{get;set;}
+    public AssigmentExpr  Source{get; set;}
+    public AssigmentExpr  Single{get; set;}
+    public LambdaExpr  Predicate{get;set;}
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     private static string[] theSources = new[]{"parent","hand","board","otherDeck","deck","otherHand","field","otherField"};
     public Selector(AssigmentExpr source, AssigmentExpr single, LambdaExpr predicate)

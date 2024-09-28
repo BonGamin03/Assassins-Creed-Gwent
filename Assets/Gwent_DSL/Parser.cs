@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 class Parser
 {
@@ -124,7 +125,7 @@ class Parser
 
                     effect.Action = ParsingLambdaExpr(Previous().TokenType);
                     CheckComma(effect);
-                }
+                } // poner else exeption
                 
              }else if(Tokens[Current].TokenType !=TokenType.END){
                 throw new Exception("Unexpected token");
@@ -624,17 +625,20 @@ class Parser
                         else
                             throw new Exception("Name declaration already exist");
 
+                        if(!Check(TokenType.CLOSE_KEY))
+                        CheckPKB(TokenType.COMMA, ", EXPECTED");
+                        
                     }else if(Match(TokenType.ID)){  
 
                         effectAsig.TheAmounts?.Add(ParseAssigmentTwoPoints()!);
+
+                        if(!Check(TokenType.CLOSE_KEY))
+                        CheckPKB(TokenType.COMMA, ", EXPECTED");
+
                     }else{
-                        throw new Exception("Invalid argument in th current context");
+                        throw new Exception("Invalid token in effect assigment");
                     }
-                    
-                    if(Match(TokenType.COMMA) || Check(TokenType.CLOSE_KEY))
-                        continue;
-                    else
-                        throw new Exception(", EXPECTED");
+                  
                 }
 
             }else{
@@ -824,7 +828,8 @@ class Parser
         while (Match(TokenType.POINT, TokenType.OPEN_BRACKET))
         {
             Token token = Previous();
-            expr = new PointExpr(expr,token, ParseFunc());
+            expr = token.TokenType == TokenType.POINT? new PointExpr(expr,token, ParseFunc()) : new PointExpr(expr,token,Or());
+            if(token.TokenType == TokenType.OPEN_BRACKET){CheckPKB(TokenType.CLOSE_BRACKET,"] Expected");}
 
         }
         return expr;
@@ -851,7 +856,14 @@ class Parser
         if(Functions.Exists(x => x.Equals(Peek().TokenType))){
              var type = Advance().TokenType;
 
-            if(Peek().TokenType.Equals(TokenType.OPEN_PARENTHESIS)){
+            if(type == TokenType.FIND){
+
+                CheckPKB(TokenType.OPEN_PARENTHESIS,"( EXPECTED");
+                var something = ParsingFindBody();
+                CheckPKB(TokenType.CLOSE_PARENTHESIS, ") EXPECTED");
+
+                return new FuncExpr(type,something);
+            } else if(Peek().TokenType.Equals(TokenType.OPEN_PARENTHESIS)){
                 Advance();
                 
                 var something = Peek().TokenType == TokenType.CLOSE_PARENTHESIS ? null : Or();
@@ -864,6 +876,28 @@ class Parser
         }
 
         throw new Exception("Invalid signal expression");
+    }
+
+    public LambdaExpr ParsingFindBody(){
+
+        LambdaExpr findBody = new(TokenType.PREDICATE);
+
+        if(Match(TokenType.OPEN_PARENTHESIS)){
+
+            var unit = Or();
+
+            CheckPKB(TokenType.CLOSE_PARENTHESIS,") EXPECTED");
+            CheckPKB(TokenType.LAMBDA_EXPR,"=> EXPECTED");
+
+            var lambdaBody = Or();
+
+            findBody.VarExpressions.Add((ID)unit);
+            findBody.LambdaBody.Exprs.Enqueue(lambdaBody);
+        }else{
+           throw new Exception("( EXPECTED");
+        }
+
+        return findBody;
     }
 
     private Expr Primary () {

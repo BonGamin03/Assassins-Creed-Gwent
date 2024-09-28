@@ -196,7 +196,7 @@ public  class Effects : MonoBehaviour
           
           if(selector.Item2 is true){
 
-            if(targets.Count > 1) targets.RemoveRange(1,targets.Count-2);
+            if(targets.Count > 1) targets.RemoveRange(1,targets.Count-1);
           }
     }
 

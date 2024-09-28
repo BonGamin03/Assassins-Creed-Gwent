@@ -1,0 +1,59 @@
+
+                        
+    
+
+effect 
+                {
+                Name: "Draw",
+                Action: (targets,context) => {
+                while( !(1 > -(90+8)) )
+                i = 0;
+                }
+                } 
+
+
+
+
+effect 
+                {
+                Name: "Damage" ,
+                Params: {
+                Amount: Number
+                } ,
+                Action: (targets,context) => {
+                for target in targets {
+                i=0;
+                while(i++ <Amount)
+                 target.Power-=1;
+                };
+                }
+                }
+
+
+
+card 
+                {
+                Type: "O"  @ "ro" ,
+                Name: "Raul",
+                Power: -(-1-9),
+                Faction:"Assassins",
+                Range: ["Melee" ,"Ranged" ,"Siege"] ,
+                OnActivation: 
+                [
+                {
+                Effect:
+                {
+                Name: "Damage" ,
+                Amount: 7-2+(-1-9)*(1 - 1 + -1 +1) - 1 
+                },
+                Selector:
+                {
+                Source: "board" ,
+                Predicate: (unit) => unit.Power >= 3 ,
+                Single: true || true && !( 5 > 0) 
+                }
+                 
+                }
+                  
+                ]
+                }

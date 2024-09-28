@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 public class PostAction : Expr
 {
-    public EffectAsig ? EffectAsigment{get; set;}
-    public Selector ? SelectAsigment{get; set;}
-    public PostAction ? PostActionSon{get; set;}
+    public EffectAsig  EffectAsigment{get; set;}
+    public Selector  SelectAsigment{get; set;}
+    public PostAction  PostActionSon{get; set;}
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public PostAction()
     {
@@ -46,9 +46,9 @@ public class PostAction : Expr
           foreach (ID item in effect.Params.NameParam!)
             {
               string varName=item.ExpValue;
-              if(EffectAsigment!.TheAmounts!.Exists(x => varName == ((ID)x.LeftSide).ExpValue))
+              if(postAction.EffectAsigment!.TheAmounts!.Exists(x => varName == ((ID)x.LeftSide).ExpValue))
               {
-                AssigmentExpr param = EffectAsigment.TheAmounts.Find(x => varName == ((ID)x.LeftSide).ExpValue)!;
+                AssigmentExpr param = postAction.EffectAsigment.TheAmounts.Find(x => varName == ((ID)x.LeftSide).ExpValue)!;
                 ID variable=new ID(varName);
                 
                 scope.VarExpresions.Add(variable);
@@ -90,7 +90,7 @@ public class PostAction : Expr
         throw new NotImplementedException();
     }
 
-    public override object? Evaluate(Scope scope)
+    public override object Evaluate(Scope scope)
     {
         throw new NotImplementedException();
     }

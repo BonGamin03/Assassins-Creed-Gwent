@@ -24,7 +24,7 @@ public class Player
 
     public Player(){}
 
-    public List<GameObject> HandOfPlayer() => Hand.CardsHand;
+    public Hand HandOfPlayer() => Hand;
 
     public Field FieldOfPlayer() => Field;
 

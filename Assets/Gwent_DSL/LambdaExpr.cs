@@ -7,9 +7,9 @@ using UnityEngine;
 public class LambdaExpr : Expr
 {
     public List<ID>  VarExpressions{get; protected set;}
-    public Stat  LambdaBody{get;private set; }
+    public Stat  LambdaBody{get;internal set; }
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public LambdaExpr(List<ID> varExpressions, Stat lambdaBody, TokenType type){
 
@@ -30,7 +30,7 @@ public class LambdaExpr : Expr
 
         if(Type == TokenType.PREDICATE)
         {
-            Predicate<GameObject> predicate = (CardData) => EvaluatPredicat(CardData,scope); // Cambiar en todos los lugares de CardData a GameObject
+            Predicate<GameObject> predicate = (CardData) => EvaluatPredicat(CardData,scope); 
             return predicate;
         }else{
 

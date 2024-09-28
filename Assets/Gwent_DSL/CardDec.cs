@@ -11,14 +11,14 @@ public class CardDec : Expr // I'll do it later
     public AssigmentExpr Name {get; set;}
     public AssigmentExpr TypeCard {get;set;}
     public AssigmentExpr Faction {get;set;}
-    public AssigmentExpr? Power {get; set;}
+    public AssigmentExpr Power {get; set;}
     public List<Expr> Range {get;set;}
-    public OnActivation ?OnActivation {get;set;}
+    public OnActivation OnActivation {get;set;}
     public override TokenType? Type {get;protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
     private static string[] theTypeOfCards = {"Oro", "Plata", "Lider", "Clima", "Aumento", "Despeje", "Señuelo"};  
 
-    public CardDec (AssigmentExpr name, AssigmentExpr typeCard, AssigmentExpr faction, AssigmentExpr? power, List<Expr> range, OnActivation onActivation)
+    public CardDec (AssigmentExpr name, AssigmentExpr typeCard, AssigmentExpr faction, AssigmentExpr power, List<Expr> range, OnActivation onActivation)
     {
         Name = name;
         TypeCard = typeCard;
@@ -34,7 +34,7 @@ public class CardDec : Expr // I'll do it later
         Type = TokenType.CARD_DEC;
     }
 
-    public override object? Evaluate(Scope scope)
+    public override object Evaluate(Scope scope)
     {
         CheckSemantic(scope);
         

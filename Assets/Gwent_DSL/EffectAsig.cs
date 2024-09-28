@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class EffectAsig : Expr
 {
     public AssigmentExpr Name{get; set;}
-    public List<AssigmentExpr> ?TheAmounts{get; set;}
+    public List<AssigmentExpr> TheAmounts{get; set;}
     public override TokenType? Type { get;protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public EffectAsig(AssigmentExpr name, List<AssigmentExpr> theAmounts)
     {
@@ -23,7 +23,7 @@ public class EffectAsig : Expr
         Type = TokenType.EFFECT_CARD;
     }
 
-    public override object Evaluate(Scope scope) //revisar 
+    public override object Evaluate(Scope scope) 
     {
           EffectNode effectAssigment = ProgrNode.Effects.Find(x => Name.RightSide.Evaluate(scope)!.ToString() == x.Name.RightSide.Evaluate(scope)!.ToString())!;
 

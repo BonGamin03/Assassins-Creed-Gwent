@@ -1,0 +1,85 @@
+effect {
+Name : "Damage" ,
+Params : {
+  Amount: Number
+},
+Action: (targets , context) => {
+  for target in targets {
+
+   i=0;
+  while (i++ <Amount)
+         target.Power-=1;
+      };
+     }
+  }
+
+
+effect {
+ Name : "DrawCardByPower" ,
+Params : {
+  Variable: Number
+},
+ Action: (targets , context) => {
+
+topCard= context.Deck.Find((unit)=>unit.Power >=Variable)[0];
+context.Hand.Add(topCard);
+context.Hand.Shuffle();
+}
+}
+
+effect {
+Name : "ReturnToDeck" ,
+Action: (targets , context) => {
+  for target in targets {
+
+   owner=target.Owner;
+   deck=context.DeckOfPlayer(owner);
+   deck.Push(target);
+  deck.Shuffle();
+  context.Board.Remove(target);
+      };
+     }
+  }
+
+card {
+            Type: "Oro" ,
+	 Name: "Peseta" ,
+	Faction : "RockStar" ,
+         Power: 15 ,
+         Range :["Ranged"] ,
+         
+   OnActivation: [ 
+   {
+      Effect : {
+          Name : "Damage" ,
+          Amount : 5 
+    },
+       Selector : { 
+	Source : "board",
+          Single: false ,
+          Predicate: (unit)=> unit.Power >= 3 
+  },
+     PostAction : {
+         Type : "ReturnToDeck" , 
+         Selector : {
+          Source : "otherField" ,
+          Predicate : (unit) => true
+       } , 
+          PostAction : {
+         Type : "DrawCardByPower" , 
+         Variable: 12 ,
+         Selector : {
+          Source : "field" ,
+          Predicate : (unit) => true
+       } ,
+    }
+    }
+} 
+  
+]
+}
+                        
+    
+
+
+

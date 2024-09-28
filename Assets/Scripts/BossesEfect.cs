@@ -33,7 +33,6 @@ public class BossesEfect : MonoBehaviour
         Board       = GameObject.FindGameObjectWithTag("board");
     }
     private void OnMouseDown() {
-        UnityEngine.Debug.Log(NameCard);;
         Effects.GetTipe(gameObject);
     }
       void OnMouseEnter() 

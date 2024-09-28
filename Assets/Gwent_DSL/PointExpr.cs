@@ -9,7 +9,7 @@ internal class PointExpr : Expr
     public Expr Left {get;}
     public Expr Right {get;}
     public Token Operator {get;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
    
     public override TokenType? Type{get; protected set;}
 
@@ -26,7 +26,7 @@ internal class PointExpr : Expr
 
             if(Left.Evaluate(scope) as List<GameObject> is not null)
             return true;
-
+     
             throw new Exception("Left sido of Dot Expression is not an indexer type");
         }
 

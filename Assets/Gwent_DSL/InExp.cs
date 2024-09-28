@@ -10,7 +10,7 @@ public class InExp : Expr
     public ID  Element{get; set;}
     public ID  Collection{get;set;}
     public override TokenType? Type {get;protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public InExp ()
     {
@@ -63,7 +63,7 @@ public class InExp : Expr
         throw new NotImplementedException();
     }
 
-    public bool IsAlreadyAsig(Scope? scope) // esta repetido el metodo en assigment expresions 
+    public bool IsAlreadyAsig(Scope scope) // esta repetido el metodo en assigment expresions 
     {
         if(scope is null ) return false;
         if(scope.VarExpresions.Exists(x => x.ExpValue!.Equals(Element.ExpValue))) { return true; }
@@ -71,7 +71,7 @@ public class InExp : Expr
         return IsAlreadyAsig(scope.Parent);
     }
 
-    public ID ReturnElement (Scope ? scope )
+    public ID ReturnElement (Scope  scope )
     {
         if(scope is null){return null!;}
         else if(scope.VarExpresions.Exists(x => x.ExpValue.Equals(Element.ExpValue))){
@@ -82,7 +82,7 @@ public class InExp : Expr
         return ReturnElement(scope!.Parent);
     }
 
-    public ID ReturnAnExpecElement(Scope ? scope, string nameVar )
+    public ID ReturnAnExpecElement(Scope  scope, string nameVar )
     {
         if(scope is null){return null!;}
         else if(scope.VarExpresions.Exists(x => x.ExpValue.Equals(nameVar))){

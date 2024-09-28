@@ -188,7 +188,7 @@ card
                 
                 Selector:{
                 	Source: "otherField",
-                	Single: false,
+                	Single: true,
                 	Predicate : (unit) => unit.Name == "Elise de la Serre"
                 }
                 

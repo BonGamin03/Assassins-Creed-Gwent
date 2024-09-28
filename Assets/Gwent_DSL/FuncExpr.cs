@@ -34,7 +34,7 @@ public class FuncExpr : Expr
 
     public override object Evaluate(Scope scope)
     {
-        return null!;
+        return Param.Evaluate(scope);
     }
 
     public object Evaluate(Scope scope, object value){
@@ -142,6 +142,54 @@ public class FuncExpr : Expr
                 if(Function == TokenType.OWNER){
                     return card4.Owner;
                 }
+           }else if(card is CleanCardScript card5){
+                if(Function == TokenType.POWER){
+                    return 0.0;
+                }
+
+                if(Function == TokenType.NAME){
+                    return card5.NameCard;
+                }
+
+                if(Function == TokenType.FACTION){
+                    return "";
+                }
+
+                if(Function == TokenType.TYPE){
+                    return UnityCard.EnumTypeCard.CleanCard.ToString();
+                }
+
+                if(Function == TokenType.RANGE){
+                    return "";
+                }
+
+                if(Function == TokenType.OWNER){
+                    return card5.Owner;
+                }
+           } else if(card is LureCardScript card6){
+                if(Function == TokenType.POWER){
+                    return 0.0;
+                }
+
+                if(Function == TokenType.NAME){
+                    return card6.NameCard;
+                }
+
+                if(Function == TokenType.FACTION){
+                    return "";
+                }
+
+                if(Function == TokenType.TYPE){
+                    return UnityCard.EnumTypeCard.Lure.ToString();
+                }
+
+                if(Function == TokenType.RANGE){
+                    return "";
+                }
+
+                if(Function == TokenType.OWNER){
+                    return card6.Owner;
+                }
            }
         }else if(value is List<GameObject> listCard){
     
@@ -201,7 +249,7 @@ public class FuncExpr : Expr
 
                 if(Param is not null && Param.Evaluate(scope) is double triggerPlayer){
                     
-                    return CompilerManager.GetPlayerById( triggerPlayer).HandOfPlayer();
+                    return CompilerManager.GetPlayerById(triggerPlayer).HandOfPlayer();
 
                 }else{throw new Exception("Invalid input in HandOfPlayer");}
             }else if(Function == TokenType.FIELD_OF_PLAYER){
@@ -238,10 +286,97 @@ public class FuncExpr : Expr
 
                 return CompilerManager.GetPlayerById(CompilerManager.GetTriggerPlayer()).DeckOfPlayer();
             }
-        }else if(value is (Field,Field) || value is Field){
-           if(Param is not null || Param.Evaluate(scope) is GameObject x){
-                //(value as Field).Remove();
-           }
+        }else if(value is (Field,Field)){
+            
+            if(Function == TokenType.REMOVE){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    
+                    GetTypeCard(card, out object card1 );
+                    (Field,Field) value1 = ((Field,Field))value;
+                    value1.Item1.Remove(card);
+                    value1.Item2.Remove(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Remove function");}
+                
+            }else if(Function == TokenType.FIND){
+
+                if(Param is not null && Param.Evaluate(scope) is Predicate<GameObject> card){
+                    
+                    (Field,Field) value1 = ((Field,Field))value;
+                    value1.Item1.Find(card);
+                    value1.Item2.Find(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Remove function");}
+            }
+        }else if(value is Field y){
+            
+            if(Function == TokenType.REMOVE){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    GetTypeCard(card, out object card1 );
+                    y.Remove(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Remove function");}
+                
+            }else if(Function == TokenType.FIND){
+
+                if(Param is not null && Param.Evaluate(scope) is Predicate<GameObject> card){
+                    y.Find(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Remove function");}
+            }
+        }else if(value is Hand x){
+            if(Function == TokenType.REMOVE){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    
+                    GetTypeCard(card, out object card1 );
+                    x.Remove(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Remove function");}
+                
+            }else if(Function == TokenType.FIND){
+
+                if(Param is not null && Param.Evaluate(scope) is Predicate<GameObject> predicate){
+                    x.Find(predicate);
+                    return true;
+                }else{throw new Exception("Invalid input in Find function");}
+            }else if(Function == TokenType.PUSH){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    
+                    GetTypeCard(card, out object card1 );
+                    x.Push(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Pushfunction");}
+                
+            }else if(Function == TokenType.SEND_BOTTOM){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    
+                    GetTypeCard(card, out object card1 );
+                    x.SendBottom(card);
+                    return true;
+                }else{throw new Exception("Invalid input in SendBottom function");}
+                
+            } else if(Function == TokenType.ADD){
+
+                if(Param is not null && Param.Evaluate(scope) is GameObject card){
+                    
+                    GetTypeCard(card, out object card1 );
+                    x.Add(card);
+                    return true;
+                }else{throw new Exception("Invalid input in Add function");}
+                
+            }else if(Function == TokenType.POP){
+
+                 x.Pop();
+                return true;
+            }else if(Function == TokenType.SHUFFLE){
+                x.Shuffle();
+                return true;
+            }
         }
 
         throw new Exception("Invalid Function acces");

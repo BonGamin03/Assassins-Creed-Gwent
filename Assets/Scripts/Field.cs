@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,17 +54,39 @@ public class Field
         MaskAumentS = maskAumentS;
     }
 
-    public void Remove( GameObject card)
+    public void Remove(GameObject card)
     {
         Vector3 vector = new Vector3(1000,1000,1000);
-        if(MAttack.Find(X => X.name.Equals(card.name))){
+        if(MAttack.Any(X => X.name.Equals(card.name))){
             MAttack.Remove(card);
-        }else if(RAttack.Find(X => X.name.Equals(card.name))){
+        }else if(RAttack.Any(X => X.name.Equals(card.name))){
             RAttack.Remove(card);
-        }else if(SAttack.Find(X => X.name.Equals(card.name))){
+        }else if(SAttack.Any(X => X.name.Equals(card.name))){
             SAttack.Remove(card);
         }
 
         card.transform.position = vector;
+    }
+
+    internal List<GameObject> Find( Predicate<GameObject> predicate){
+        
+        List<GameObject> finded = new(); 
+
+        foreach (var item in MAttack)
+        {
+            if(predicate.Invoke(item)) finded.Add(item);
+        }
+
+        foreach (var item in RAttack)
+        {
+            if(predicate.Invoke(item)) finded.Add(item);
+        }
+
+        foreach (var item in SAttack)
+        {
+             if(predicate.Invoke(item)) finded.Add(item);
+        }
+
+        return finded;
     }
 }

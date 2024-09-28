@@ -15,7 +15,6 @@ public  class CardsCreator : MonoBehaviour
     public static Queue<GameObject> CardCreator(string textForCompiling)
     {
         Queue<GameObject> cards = new();
-        bool [] ping = new bool[]{false,true,false};
         List<CardData> cardsData = ProgrNode.CompiledCards(textForCompiling);
         
         
@@ -25,27 +24,27 @@ public  class CardsCreator : MonoBehaviour
             GameObject prefab= Resources.Load<GameObject>("Prefabs/Compiler Card");
             GameObject card = Instantiate(prefab);
             card.transform.position = new Vector3(1000,1000,1000);
+            if(!CardWithEffect.ContainsKey(item.Name)){CardWithEffect.Add(item.Name,item.EffectCard);}
+            else{throw new Exception("Already Exist a card with that name");}
              
             if(item.Type == "Oro" || item.Type == "Plata")
             {
 
                 UnityCard unity_Card = new(item.Name, GetRangeUnity(item.Range), GetTypeUnity(item.Type),(int)item.Power, UnityCard.EnumEfects.EffectOfGwent_PlusPlus, GetFaction(item.Faction));
 
-                CardWithEffect.Add(item.Name,item.EffectCard);
                 card.AddComponent<UnityCardScript>();
                 card.GetComponent<UnityCardScript>().unityCard = unity_Card;
                 Charging_UI(card);
                 
-                if(card.GetComponent<UnityCardScript>().FactionCard == UnityCard.EnumFactionCard.Assassins){
+                if(GetFaction(item.Faction) == UnityCard.EnumFactionCard.Assassins){
                     GameManajer.GameManger.Assassinsdeck.GetComponent<DeckScript>().deck.Add(card);
 
                 }else{
-                    GameManajer.GameManger.Assassinsdeck.GetComponent<DeckScript>().deck.Add(card);
+                    GameManajer.GameManger.Templarsdeck.GetComponent<DeckScript>().deck.Add(card);
                 }
 
             }else if(item.Type == "Clima" ){
                 
-                CardWithEffect.Add(item.Name,item.EffectCard);
                 WeatherCard weather_card = new(item.Name, UnityCard.EnumTypeCard.WeatherCard, UnityCard.EnumEfects.EffectOfGwent_PlusPlus, GetRangeWheather(item.Range));
                 card.AddComponent<WeatherCardScript>();
                 card.GetComponent<WeatherCardScript>().weatherCard = weather_card;
@@ -54,7 +53,6 @@ public  class CardsCreator : MonoBehaviour
 
             }else if(item.Type == "Aumento"){
                 
-                CardWithEffect.Add(item.Name,item.EffectCard);
                 AumentCard aument_Card = new(item.Name, UnityCard.EnumTypeCard.AumentCard, UnityCard.EnumEfects.EffectOfGwent_PlusPlus, GetRangeUnity(item.Range), UnityCard.EnumFactionCard.Neutral);
                 card.AddComponent<AumentCardScript>();
                 card.GetComponent<AumentCardScript>().aumentCard = aument_Card;
@@ -63,15 +61,14 @@ public  class CardsCreator : MonoBehaviour
 
             }else if(item.Type == "Lider"){
                 
-                CardWithEffect.Add(item.Name,item.EffectCard);
                 BossCard boss_card = new(item.Name, UnityCard.EnumTypeCard.Boss, UnityCard.EnumEfects.EffectOfGwent_PlusPlus,GetFaction(item.Faction));
                 card.AddComponent<BossesEfect>();
                 card.GetComponent<BossesEfect>().bossCard = boss_card;
                 Charging_UI(card);
 
                 if(boss_card.FactionCard ==  UnityCard.EnumFactionCard.Assassins){
-                    GameObject altair = GameObject.FindGameObjectWithTag("Altair");
 
+                    GameObject altair = GameObject.FindGameObjectWithTag("Altair");
                     var Altair =  altair.GetComponent<BossesEfect>();
                     altair.GetComponent<SpriteRenderer>().sprite = card.GetComponent<SpriteRenderer>().sprite;
                     Altair.Effect = UnityCard.EnumEfects.EffectOfGwent_PlusPlus;

@@ -30,8 +30,5 @@ public class CardData
         EffectCard = new();
     }
 
-    public static implicit operator List<object>(CardData v)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

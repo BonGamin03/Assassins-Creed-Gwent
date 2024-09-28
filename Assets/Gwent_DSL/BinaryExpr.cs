@@ -17,11 +17,15 @@ public class BinaryExpr : Expr {
 
     public override bool CheckSemantic(Scope scope)
     {
-       throw new  NotImplementedException();
+       if(Right.Evaluate(scope) is double x && x == 0 && Type == TokenType.DIVITION)
+       throw new Exception("Divition by 0 isn't defined");
+
+       return true;
     }
 
     public override object  Evaluate(Scope scope)
     {
+        CheckSemantic(scope);
         switch (Type)
         {
             case TokenType.OR:

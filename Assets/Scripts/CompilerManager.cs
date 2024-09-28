@@ -9,7 +9,7 @@ public static class CompilerManager
     private static readonly Player player1 = GameManajer.GameManger.AssassinPlayer;
     private static readonly Player player2 = GameManajer.GameManger.TemplarPlayer;
 
-    public delegate void OperationPuSeRe(List<GameObject> list,GameObject gameObject);
+    public delegate void OperationPuSeRe (List<GameObject> list,GameObject gameObject);
 
 
     public static Player GetPlayer() => GameManajer.GameManger.AssassinPlay ? player1 :player2;
@@ -22,13 +22,13 @@ public static class CompilerManager
 
     public static double GetTriggerPlayer() => GetPlayer().Id;
 
-    public static List<GameObject> Find (Predicate<GameObject> predicate, List<GameObject> List) => List.FindAll(predicate);
+    public static List<GameObject> Find (Predicate<GameObject> predicate, List<GameObject> List) => EvalPred(predicate,List);
 
-    public static void Push(List<GameObject> list, GameObject card){
+    public static void Push(List<GameObject> list, GameObject card) => list.Add(card);
+    public static void SendBottom(List<GameObject> list, GameObject card){
         list.Add(card);
         list.Reverse();
     }
-    public static void SendBottom(List<GameObject> list, GameObject card) => list.Add(card);
 
     public static GameObject Pop(List<GameObject> gameObjects){
 
@@ -51,5 +51,18 @@ public static class CompilerManager
             list[randomIndex1] = list[randomIndex2];
             list[randomIndex2] = card;
         }
+    }
+
+    private static List<GameObject> EvalPred(Predicate<GameObject> predicate, List<GameObject> list){
+
+        var list1 = list.ToList();
+
+        foreach (var item in list1)
+        {
+            if(predicate.Invoke(item))
+            list.Remove(item);
+        }
+
+        return list;
     }
 }

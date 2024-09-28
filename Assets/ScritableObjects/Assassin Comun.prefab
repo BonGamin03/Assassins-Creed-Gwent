@@ -101,7 +101,6 @@ MonoBehaviour:
   NameCard: 
   TypeCard: 0
   EfectCard: 0
-  RowAument: 0
   FactionCard: 0
   IsPlayed: 0
   GameManager: {fileID: 0}

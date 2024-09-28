@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,18 +19,27 @@ public class ChargingCompiler : MonoBehaviour
     void Start() {
 
         chargingCompilerInstance = this;
-        //InterFaceCompiler = GameObject.FindGameObjectWithTag("CompilingUI");//creo que no son necesarios
-        //InterfaceAssigment = GameObject.FindGameObjectWithTag("Assigning");//
-        // CompiledCards = GameObject.FindGameObjectWithTag("CompiledCards");
     }
 
      public void OnClick(){
         
         compiledCards = CardsCreator.CardCreator(input.text);
         InterFaceCompiler.SetActive(false);
-        if(compiledCards.Count > 0){Text.text = compiledCards.Peek().name;}
+        if(compiledCards.Count > 0){Text.text = GivingName(compiledCards.Peek());}
         else{InterfaceAssigment.SetActive(false);}
         
+    }
+
+    private string GivingName(GameObject gameObject)
+    {
+        //GameObject instace = GameObject.Instantiate(gameObject,)
+        if(gameObject.TryGetComponent(out WeatherCardScript card))
+        return gameObject.GetComponent<WeatherCardScript>().weatherCard.NameCard;
+
+        if(gameObject.TryGetComponent(out AumentCardScript card1))
+        return gameObject.GetComponent<AumentCardScript>().aumentCard.NameCard;
+
+        throw new Exception("Invalid Card");
     }
 
     // public void ChangingToAssigmentUI(){
@@ -45,7 +55,7 @@ public class ChargingCompiler : MonoBehaviour
        Portal("TemplarsDeck");
     }
 
-    public void Portal(string tag){
+    public void Portal(string   tag){
         GameObject test = Instantiate(compiledCards.Dequeue(),new Vector3(1000,1000,100),Quaternion.identity);
         GameObject gameObject = GameObject.FindGameObjectWithTag(tag);
         gameObject.GetComponent<DeckScript>().deck.Add(test);
@@ -53,6 +63,8 @@ public class ChargingCompiler : MonoBehaviour
         InterfaceAssigment.SetActive(false);
             return;
         }
-        Text.text = compiledCards.Peek().name;
+        Text.text = GivingName(compiledCards.Peek());
     }
+
+    
 }

@@ -8,7 +8,7 @@ public class OnActivation : Expr
 {
     public List<OnActivationStat> OnActivationBody{get; set;}
     public override TokenType? Type {get;protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public OnActivation(List<OnActivationStat> onActivationBody)
     {

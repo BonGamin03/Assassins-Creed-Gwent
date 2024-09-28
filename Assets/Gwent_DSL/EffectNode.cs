@@ -39,7 +39,7 @@ public class EffectNode : Expr {
         return true;
     }
 
-    public override object? Evaluate(Scope scope)
+    public override object Evaluate(Scope scope)
     {
         CheckSemantic(scope);
         if(Params is not null){Params.Evaluate(scope!);}
