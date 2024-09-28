@@ -128,12 +128,12 @@ public  class Effects : MonoBehaviour
     {
        try
        {
-          Dictionary<Action<List<GameObject>>,(string,bool, Predicate<GameObject>)> effectValue = CardsCreator.CardWithEffect[nameCard];
+          List<(Action<List<GameObject>>,(string,bool, Predicate<GameObject>))> effectValue = CardsCreator.CardWithEffect[nameCard];
 
 
           foreach (var item in effectValue)
           {
-             item.Key.Invoke(GetTargets(item.Value));
+             item.Item1.Invoke(GetTargets(item.Item2));
           }
        }
        catch (KeyNotFoundException)
@@ -152,20 +152,20 @@ public  class Effects : MonoBehaviour
         
         if(selector.Item1.Equals("hand")){
 
-          //targets = CompilerManager.GetPlayer().HandOfPlayer();
+          targets = CompilerManager.GetPlayer().HandOfPlayer().CardsHand.ToList();
           ExtGetTargets(targets,selector);
         
         }else if(selector.Item1.Equals("otherHand")){
 
-          //targets = CompilerManager.GetOtherPlayer().HandOfPlayer();
+          targets = CompilerManager.GetOtherPlayer().HandOfPlayer().CardsHand.ToList();
           ExtGetTargets(targets,selector);
         }else if(selector.Item1.Equals("deck")){
           
-          targets = CompilerManager.GetPlayer().DeckOfPlayer();
+          targets = CompilerManager.GetPlayer().DeckOfPlayer().ToList();
           ExtGetTargets(targets,selector);
         }else if(selector.Item1.Equals("otherDeck")){
 
-          targets = CompilerManager.GetOtherPlayer().DeckOfPlayer();
+          targets = CompilerManager.GetOtherPlayer().DeckOfPlayer().ToList();
           ExtGetTargets(targets,selector);
         }else if(selector.Item1.Equals("field")){
 

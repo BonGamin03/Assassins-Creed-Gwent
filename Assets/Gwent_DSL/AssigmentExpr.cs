@@ -39,7 +39,7 @@ public class AssigmentExpr : Expr
     public Expr RightSide{get; set;}
     public TokenType? TypeAsig{get;set;}
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public override bool CheckSemantic(Scope scope)
     {
@@ -119,7 +119,7 @@ public class AssigmentExpr : Expr
         throw new NotImplementedException();
     }
 
-    public bool IsAlreadyAsig(Scope? scope)
+    public bool IsAlreadyAsig(Scope scope)
     {
         if(scope is null ) return false;
         if(scope.VarExpresions.Exists(x => x.ExpValue!.Equals(((ID)LeftSide!).ExpValue))) { return true; }
@@ -128,7 +128,7 @@ public class AssigmentExpr : Expr
     }
     
 
-    private ID ? GetID(Scope ? scope)
+    private ID  GetID(Scope  scope)
     {
         if(scope is null){return null!;}
 

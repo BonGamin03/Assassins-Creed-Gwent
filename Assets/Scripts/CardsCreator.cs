@@ -6,7 +6,7 @@ using UnityEngine;
 
 public  class CardsCreator : MonoBehaviour
 {
-   internal static Dictionary<string,Dictionary<Action<List<GameObject>>,(string,bool,Predicate<GameObject>)>> CardWithEffect = new();
+   internal static Dictionary<string,List<(Action<List<GameObject>>,(string,bool,Predicate<GameObject>))>> CardWithEffect = new();
    public static Player Player1 {get; private set;}
    public static Player Player2 {get; private set;}
 

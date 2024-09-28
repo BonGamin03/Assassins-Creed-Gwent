@@ -17,9 +17,9 @@ public class PKBExpr : AtomicExp
 
     public Expr  Content{get; private set;}
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
-    public override object? Evaluate(Scope scope)
+    public override object Evaluate(Scope scope)
     {
         return Content.Evaluate(scope);
     }

@@ -12,7 +12,7 @@ public class CardData
     internal string Type {get;set;}
     internal double ? Power{get;set;}
     internal bool[] Range{get;set;}
-    internal Dictionary<Action<List<GameObject>>,(string,bool,Predicate<GameObject>)> EffectCard{get;set;}
+    internal List<(Action<List<GameObject>>,(string,bool,Predicate<GameObject>))> EffectCard{get;set;}
     
     public CardData(string name, string faction, string type, double power, bool[] range){
         Name = name;

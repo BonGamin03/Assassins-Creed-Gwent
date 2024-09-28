@@ -100,10 +100,11 @@ public class Hand {
 
         for (int i = 0; i < CardsHand.Count; i++)
         {
-            if(CardsHand[i].name.Equals(card.name)){
+            if( CardsHand[i] is not null && CardsHand[i].name.Equals(card.name)){
 
-                //CardsHand[i].transform.position = new Vector3(1000,1000,1000);
+                CardsHand[i].transform.position = new UnityEngine.Vector3(1000,1000,1000);
                 CardsHand[i] = null;
+                MaskPositionHand[i] = false;
                 return;
             }
         }

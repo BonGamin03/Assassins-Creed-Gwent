@@ -46,14 +46,14 @@ public class CardDec : Expr // I'll do it later
 
         if(Faction is not null) {card.Faction = Faction.RightSide.Evaluate(scope!).ToString();};
 
-        Dictionary<EffectNode,Selector> effect = OnActivation is not null ? (Dictionary<EffectNode,Selector>) OnActivation.Evaluate(scope!)  : new();
+        List<(EffectNode,Selector)> effect = OnActivation is not null ? (List<(EffectNode,Selector)>) OnActivation.Evaluate(scope!)  : new();
 
         foreach (var item in effect)
         {
-            (string,bool,Predicate<GameObject>) selector = item.Value is not null ?((string,bool,Predicate<GameObject>))item.Value.Evaluate(scope) : (null!,false,null!);
-            Action<List<GameObject>> action = (Action<List<GameObject>>) item.Key.Evaluate(scope!);
+            (string,bool,Predicate<GameObject>) selector = item.Item2 is not null ?((string,bool,Predicate<GameObject>))item.Item2.Evaluate(scope) : (null!,false,null!);
+            Action<List<GameObject>> action = (Action<List<GameObject>>) item.Item1.Evaluate(scope!);
 
-            card.EffectCard.Add(action,selector);
+            card.EffectCard.Add((action,selector));
         }
 
         return card;

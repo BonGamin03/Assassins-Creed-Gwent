@@ -4,11 +4,11 @@ using System;
 
 public class OnActivationStat : Expr
 {
-    public EffectAsig ? EffectAsigment{get; set;}
-    public Selector ? SelectAsigment{get; set;}
-    public PostAction ? PostActionAsig{get; set;}
+    public EffectAsig  EffectAsigment{get; set;}
+    public Selector  SelectAsigment{get; set;}
+    public PostAction  PostActionAsig{get; set;}
     public override TokenType? Type {get; protected set;}
-    public override Scope? Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+    public override Scope Scope { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
 
     public OnActivationStat()
     {

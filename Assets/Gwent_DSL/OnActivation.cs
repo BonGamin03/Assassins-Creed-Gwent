@@ -24,18 +24,18 @@ public class OnActivation : Expr
 
     public override object Evaluate(Scope scope)
     {
-        Dictionary<EffectNode,Selector> evaluations = new Dictionary<EffectNode, Selector>();
+        List<(EffectNode,Selector)> evaluations = new();
 
         foreach (var onActivationStat in OnActivationBody)
         {
             EffectNode effectAsig = (EffectNode)onActivationStat.EffectAsigment!.Evaluate(scope);
             Selector selector = onActivationStat.SelectAsigment!;
 
-            evaluations.Add(effectAsig,selector);
+            evaluations.Add((effectAsig,selector));
 
             if(onActivationStat.PostActionAsig is not null)
             {
-                UnionOfDicc(evaluations,(Dictionary<EffectNode,Selector>)onActivationStat.PostActionAsig.Evaluate(scope,selector));// chequear que el concat funcione satisfactoriamente 
+                evaluations.Concat((List<(EffectNode,Selector)>)onActivationStat.PostActionAsig.Evaluate(scope,selector));// chequear que el concat funcione satisfactoriamente 
             }
         }
 
@@ -57,11 +57,6 @@ public class OnActivation : Expr
         throw new NotImplementedException();
     }
 
-    private static void UnionOfDicc (Dictionary<EffectNode,Selector> dictionary1, Dictionary<EffectNode,Selector> dictionary2){
-        foreach (var item in dictionary2)
-        {
-            dictionary1.Add(item.Key,item.Value);
-        }
-    }
+    
 
 }

@@ -34,10 +34,10 @@ public class PostAction : Expr
         Selector selector;
         if (SelectAsigment is not null) selector = SelectAsigment;
         else selector = parent;
-        return GetEffect(this,selector,new Dictionary<EffectNode,Selector>(),scope);
+        return GetEffect(this,selector,new List<(EffectNode,Selector)>(),scope);
     }
 
-    private object GetEffect(PostAction postAction, Selector selector, Dictionary<EffectNode, Selector> list, Scope scope)
+    private object GetEffect(PostAction postAction, Selector selector, List<(EffectNode, Selector)> list, Scope scope)
     {
         var effect = ProgrNode.Effects.Find(x=> x.Name!.Evaluate(scope!).Equals(postAction.EffectAsigment!.Name.Evaluate(scope!) ));
        if(effect is null) throw new Exception($"Effect {postAction.EffectAsigment!.Name.Evaluate(scope!)} does not exist");
@@ -72,7 +72,7 @@ public class PostAction : Expr
               } else throw new Exception($"Missing Param {varName}");
             }
        }
-       list.Add(effect,selector); 
+       list.Add((effect,selector)); 
        if(postAction.PostActionSon is not null) return GetEffect(postAction.PostActionSon,selector,list,scope);
        return list;
     }
