@@ -148,24 +148,6 @@ class Parser
         }
         return assigantion;
     }
-    private AssigmentExpr  ParseAssigmentEqual() // 
-    {
-        AssigmentExpr nameEffect = new(new ID(Previous().Value!));
-
-        if(Match(TokenType.EQUAL))
-        {
-            nameEffect.Operator = Previous().Value;
-            nameEffect.RightSide = Expretion();
-
-            if(Match(TokenType.COMMA_POINT)){}else
-            {
-               throw new Exception(": EXPECTED"); 
-            }
-        }else{
-            throw new Exception(" Invalid token we expect a :");
-        }
-        return nameEffect;
-    }
     
     private ParamsExp ParseParams()
     {
@@ -618,7 +600,7 @@ class Parser
                 
                 while (!Match(TokenType.CLOSE_KEY))
                 {
-                    if(Match(TokenType.NAME)){  //Falta la coma despues de cada assigment exp
+                    if(Match(TokenType.NAME)){  
 
                         if(effectAsig.Name is null )
                             effectAsig.Name = ParseAssigmentTwoPoints();
@@ -699,7 +681,7 @@ class Parser
         return selectAsig;
     }
     private List<Expr> ParseRangeCard()
-    { //revisar
+    { 
         CheckPKB(TokenType.TWO_POINTS,": EXPECTED");
         List<Expr> range = new();
 

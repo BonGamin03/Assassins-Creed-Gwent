@@ -1,0 +1,25 @@
+
+
+Lo primero a la hora de coorrer el programa aparece una interfaz grafica, la cual esta destinada para escribir el codigo d que se va a compilar para crear las cartas y posteriormente activar el efecto en caso que esta ultima lo posea. Para para correr el codigo que se escriba se debe pulsar el boton de compilar. Al pulsar a este se producen dos procesos uno visual y otro interno los cuales estan interconectados. Primero veamos que sucede en el front :
+
+Esta interfaz desapararece y aparece la siguiente interfaz la cual tiene como objectivo assignar las cartas que no tienen faccion(Clima , Aumento) al deck deseado para ello se utilizan los botones. Una vez que se acaban las cartas creadas entonces comienza el juego. 
+
+
+
+La parte interesante de todo ocurre internamente la cual esta dividida en dos partes : el proceso de creacion de la carta y la ejecucion del efecto. 
+
+El primer proceso sucede de la siguiente forma: Al pulsar el boton compilar de las interfaz anteriormente mencionada este tiene asignado un script el cual tiene el siguiente metodo 
+
+
+foto 
+
+
+Este se encarga de llenar la lista compiled cards con las cartas que no tengan faccion para ello se llama al siguiente funcion :
+
+
+El metodo anterior tiene objetivo llenar un la lista cardsData llamando a la funcion CompiledCards de la clase ProgrNode pasandole el string que el usuario ingreso , la lista mencionada va contener los datos de
+las cartas compiladas posteriormente ocurre el proceso de construccion de las cartas dependiendo del tipo de carta que sea, si no es ni Clima ni Aumento entonces se asignara al deck correspondiente dependiendo de la faccion de la misma. Tambien se guarda en el diccionario CardWithEffect el nombre de la carta junto a su efecto correspondiente 
+
+Entra el compilador en escena :
+
+Cunado se llama al metodo compied Cards en este internamente se crea una instancia del parser con el objectivo de que la entrada de texto escrita por el usuario separarla en tokens y guardarlos en una lista con la cual operara la funcion Parsing. en la linea siguente se llama a esta ultima la cual llena las listas Effects y Cards 
